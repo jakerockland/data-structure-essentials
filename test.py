@@ -4,7 +4,7 @@
 import unittest
 
 from searching import linear_search, binary_search
-from sorting import selection_sort, insertion_sort
+from sorting import selection_sort, insertion_sort, quick_sort
 
 class TestSearchMethods(unittest.TestCase):
     def test_linear_search(self):
@@ -70,6 +70,24 @@ class TestSortMethods(unittest.TestCase):
         insertion_sort(list_c)
         insertion_sort(list_d)
         insertion_sort(list_one)
+        self.assertEqual(list_a, list_sorted)
+        self.assertEqual(list_b, list_sorted)
+        self.assertEqual(list_c, list_sorted)
+        self.assertEqual(list_d, list_sorted)
+        self.assertEqual(list_one, list_one)
+
+    def test_quick_sort(self):
+        list_a = [3, 1, 5, 4, 2, 0, -1]
+        list_b = [5, 4, 3, 2, 1, 0, -1]
+        list_c = [-1, 0, 1, 2, 3, 4, 5]
+        list_d = [2, -1, 4, 1, 0, 5, 3]
+        list_one = [1]
+        list_sorted = [-1, 0, 1, 2, 3, 4, 5]
+        quick_sort(list_a)
+        quick_sort(list_b)
+        quick_sort(list_c)
+        quick_sort(list_d)
+        quick_sort(list_one)
         self.assertEqual(list_a, list_sorted)
         self.assertEqual(list_b, list_sorted)
         self.assertEqual(list_c, list_sorted)
