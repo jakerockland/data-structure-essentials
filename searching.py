@@ -1,7 +1,7 @@
 # Implementations of various searching algorithms
 # By: Jacob Rockland
 
-# Linear search is an O(n) search algorithm
+# linear search is an O(n) search algorithm
 def linear_search(items, key):
     for item in items:
         if item == key:
@@ -9,7 +9,7 @@ def linear_search(items, key):
 
     return None # element not found
 
-# Binary search is an O(log(n)) search algorithm
+# binary search is an O(log(n)) search algorithm
 def binary_search(items, key):
     low = 0
     high = len(items) - 1
