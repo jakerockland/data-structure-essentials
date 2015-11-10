@@ -25,12 +25,22 @@ def selection_sort(items):
 
     return # items are sorted
 
-# bubble sort is an O(n^2) algorithm
+# bubble sort is an O(n^2) algorithm, O(n) at best
 def bubble_sort(items):
-    pass # FIXME: Complete method
+    size = len(items)
+
+    for i in range(size):
+        sorted = True
+        for j in range(size-1):
+            if items[j] > items[j+1]:
+                swap(items, j, j+1)
+                sorted = False
+        if sorted:
+            return # items have finished sorting
+
     return # items are sorted
 
-# insertion sort is an O(n^2) algorithm at worst, O(n) at best
+# insertion sort is an O(n^2) algorithm, O(n) at best
 def insertion_sort(items):
     size = len(items)
 
@@ -47,33 +57,33 @@ def insertion_sort(items):
     return # items are sorted
 
 # helper method to partition items for quicksort algorithm
-def partition_items(items, left, right):
+def partition_items(items, low, high):
     # select middle element as pivot point to partition
-    mid = left + (right - left) / 2
+    mid = low + (high - low) / 2
     pivot = items[mid]
 
     done = False
     while not done:
-        # increment left point while pivot is greater than left item
-        while pivot > items[left]:
-            left += 1
+        # increment low point while pivot is greater than low item
+        while pivot > items[low]:
+            low += 1
 
-        # decrement right point while pivot is less than right item
-        while pivot < items[right]:
-            right -= 1
+        # decrement high point while pivot is less than high item
+        while pivot < items[high]:
+            high -= 1
 
-        if left >= right:
+        if low >= high:
             # if zero or one items remaining, all items have been partitioned
             done = True
         else:
-            # swap left and right numbers and update left and right indices
-            swap(items, left, right)
-            left += 1
-            right -= 1
+            # swap low and right numbers and update low and high indices
+            swap(items, low, high)
+            low += 1
+            high -= 1
 
-    return right
+    return high
 
-# quicksort is at best an O(n*log(n)) sorting algorithm, at worst O(n^2)
+# quicksort is an O(n*log(n)) algorithm, O(n^2) at worst
 def quick_sort(items, left = None, right = None):
     # base case method call
     if left is None:
