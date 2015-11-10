@@ -7,6 +7,7 @@ def swap(items, i, j):
     items[i] = items[j]
     items[j] = temp
 
+
 # selection sort is an O(n^2) algorithm
 def selection_sort(items):
     size = len(items)
@@ -25,6 +26,7 @@ def selection_sort(items):
 
     return # items are sorted
 
+
 # bubble sort is an O(n^2) algorithm, O(n) at best
 def bubble_sort(items):
     size = len(items)
@@ -40,6 +42,7 @@ def bubble_sort(items):
 
     return # items are sorted
 
+
 # insertion sort is an O(n^2) algorithm, O(n) at best
 def insertion_sort(items):
     size = len(items)
@@ -53,6 +56,28 @@ def insertion_sort(items):
             # swaps the current item with item to left of current item
             swap(items, j, j-1)
             j -= 1
+
+    return # items are sorted
+
+
+# quicksort is an O(n*log(n)) algorithm, O(n^2) at worst
+def quick_sort(items, low = None, high = None):
+    # initial method call without optional variables provided
+    if low is None:
+        low = 0
+    if high is None:
+        high = len(items) - 1
+
+    # if there are one or zero items, partition is already sorted
+    if low >= high:
+        return # items are sorted
+
+    # partition the data items, index returned is highest item in low partition
+    mid = partition_items(items, low, high)
+
+    # recursively sort low partition and high partition
+    quick_sort(items, low, mid)
+    quick_sort(items, mid + 1, high)
 
     return # items are sorted
 
@@ -83,23 +108,7 @@ def partition_items(items, low, high):
 
     return high
 
-# quicksort is an O(n*log(n)) algorithm, O(n^2) at worst
-def quick_sort(items, low = None, high = None):
-    # initial method call without optional variables provided
-    if low is None:
-        low = 0
-    if high is None:
-        high = len(items) - 1
 
-    # if there are one or zero items, partition is already sorted
-    if low >= high:
-        return # items are sorted
-
-    # partition the data items, index returned is highest item in low partition
-    mid = partition_items(items, low, high)
-
-    # recursively sort low partition and high partition
-    quick_sort(items, low, mid)
-    quick_sort(items, mid + 1, high)
-
-    return # items are sorted
+# merge sort is an O(n*log(n)) algorithm
+def merge_sort(items):
+    pass # FIXME: Implement this

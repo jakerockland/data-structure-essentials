@@ -9,6 +9,7 @@ def linear_search(items, key):
 
     return None # element not found
 
+
 # binary search is an O(log(N)) search algorithm *requires items be sorted*
 def binary_search(items, key):
     low = 0
