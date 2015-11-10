@@ -42,13 +42,13 @@ class TestSearchMethods(unittest.TestCase):
 class TestSortMethods(unittest.TestCase):
 
     def setUp(self):
-        self.list_a = [3, 1, 5, 4, 2, 0, -1]
-        self.list_b = [5, 4, 3, 2, 1, 0, -1]
-        self.list_c = [-1, 0, 1, 2, 3, 4, 5]
-        self.list_d = [2, -1, 4, 1, 0, 5, 3]
+        self.list_a = [30, 13, 57, 42, 21, 0, -11]
+        self.list_b = [57, 42, 30, 21, 13, 0, -11]
+        self.list_c = [-11, 0, 13, 21, 30, 42, 57]
+        self.list_d = [21, -11, 42, 13, 0, 57, 30]
         self.list_one = [1]
         self.list_two = [-5, -10]
-        self.list_sorted = [-1, 0, 1, 2, 3, 4, 5]
+        self.list_sorted = [-11, 0, 13, 21, 30, 42, 57]
 
     def test_selection_sort(self):
         sorting.selection_sort(self.list_a)
