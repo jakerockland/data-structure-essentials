@@ -23,9 +23,12 @@ def selection_sort(items):
         # swaps the current item with the smallest of unsorted items
         swap(items, i, k)
 
+    return # items are sorted
+
 # bubble sort is an O(n^2) algorithm
 def bubble_sort(items):
     pass # FIXME: Complete method
+    return # items are sorted
 
 # insertion sort is an O(n^2) algorithm at worst, O(n) at best
 def insertion_sort(items):
@@ -41,11 +44,13 @@ def insertion_sort(items):
             swap(items, j, j-1)
             j -= 1
 
+    return # items are sorted
+
 # helper method to partition items for quicksort algorithm
 def partition_items(items, left, right):
     # select middle element as pivot point to partition
-    mid_point = left + (right - left) / 2
-    pivot = items[mid_point]
+    mid = left + (right - left) / 2
+    pivot = items[mid]
 
     done = False
     while not done:
@@ -55,7 +60,7 @@ def partition_items(items, left, right):
 
         # decrement right point while pivot is less than right item
         while pivot < items[right]:
-            right = 1
+            right -= 1
 
         if left >= right:
             # if zero or one items remaining, all items have been partitioned
@@ -69,5 +74,22 @@ def partition_items(items, left, right):
     return right
 
 # quicksort is at best an O(n*log(n)) sorting algorithm, at worst O(n^2)
-def quick_sort(items):
-    pass # FIXME: Complete method
+def quick_sort(items, left = None, right = None):
+    # base case method call
+    if left is None:
+        left = 0
+    if right is None:
+        right = len(items) - 1
+
+    # if there are one or zero entries to sort, partition is already sorted
+    if left >= right:
+        return # items are sorted
+
+    # partition the data items, index returned is highest item in left partition
+    mid = partition_items(items, left, right)
+
+    # recursively sort left partition and right partition
+    quick_sort(items, left, mid)
+    quick_sort(items, mid + 1, right)
+
+    return # items are sorted
