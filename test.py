@@ -109,6 +109,18 @@ class TestSortMethods(unittest.TestCase):
         self.assertEqual(self.list_d, self.list_sorted)
         self.assertEqual(self.list_one, self.list_one)
 
+    def test_heap_sort(self):
+        sorting.heap_sort(self.list_a)
+        sorting.heap_sort(self.list_b)
+        sorting.heap_sort(self.list_c)
+        sorting.heap_sort(self.list_d)
+        sorting.heap_sort(self.list_one)
+        self.assertEqual(self.list_a, self.list_sorted)
+        self.assertEqual(self.list_b, self.list_sorted)
+        self.assertEqual(self.list_c, self.list_sorted)
+        self.assertEqual(self.list_d, self.list_sorted)
+        self.assertEqual(self.list_one, self.list_one)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -165,3 +165,58 @@ def merge_items(items, first, mid, last):
         items[first + index] = merged_items[index]
 
     return
+
+
+# heapsort is an O(n*log(n)) algorithm
+def heap_sort(items):
+    # builds a heap from the list of items (operates in O(n) operations)
+    heapify(items)
+
+    end = len(items) - 1
+    while end > 0:
+        # swaps root value (largest value) to front of sorted items, then restore heap
+        swap(items, 0, end)
+        end -= 1
+        sift_down(items, 0, end)
+
+    return #items are sorted
+
+# helper method to build heap from list of items
+def heapify(items):
+    size = len(items)
+
+    # sift down start node until node is in correct place
+    start = (size - 2) / 2
+    while start >= 0:
+        sift_down(items, start, size - 1)
+        start -= 1
+
+    return # elements are in heap order
+
+# helper method to repair heap that has root element at 'start' index
+def sift_down(items, start, end):
+    root = start
+
+    # loop runs while root has at least one child
+    while end >= root * 2 + 1:
+        child = root * 2 + 1
+        temp = root
+
+        # checks if child is greater than root
+        if items[child] > items[temp]:
+            temp = child
+
+        # checks if there is a right child and if it is greater than current temp
+        if end >= child + 1 and items[child + 1] > items[temp]:
+            temp = child + 1
+
+        # checks if the root holds the largest element, meaning sifting is done
+        if temp == root:
+            return
+
+        # otherwise continue sifting down
+        else:
+            swap(items, root, temp)
+            root = temp
+
+    return
