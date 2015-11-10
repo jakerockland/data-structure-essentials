@@ -4,41 +4,14 @@
 import unittest
 import searching
 import sorting
+import singly_linked_list
 
-class TestSearchMethods(unittest.TestCase):
-
-    def setUp(self):
-        self.list_even = [1, 2, 3, 4, 5, 6, 7, 8]
-        self.list_odd = [1, 2, 3, 4, 5, 6, 7]
-        self.list_one = [1]
-
-    def test_linear_search(self):
-        self.assertEqual(searching.linear_search(self.list_even, 2), 2)
-        self.assertEqual(searching.linear_search(self.list_even, 5), 5)
-        self.assertEqual(searching.linear_search(self.list_even, 4), 4)
-        self.assertEqual(searching.linear_search(self.list_even, 7), 7)
-        self.assertEqual(searching.linear_search(self.list_even, 9), None)
-        self.assertEqual(searching.linear_search(self.list_odd, 2), 2)
-        self.assertEqual(searching.linear_search(self.list_odd, 5), 5)
-        self.assertEqual(searching.linear_search(self.list_odd, 7), 7)
-        self.assertEqual(searching.linear_search(self.list_odd, 9), None)
-        self.assertEqual(searching.linear_search(self.list_one, 1), 1)
-        self.assertEqual(searching.linear_search(self.list_one, 2), None)
-
-    def test_binary_search(self):
-        self.assertEqual(searching.binary_search(self.list_even, 2), 2)
-        self.assertEqual(searching.binary_search(self.list_even, 5), 5)
-        self.assertEqual(searching.binary_search(self.list_even, 4), 4)
-        self.assertEqual(searching.binary_search(self.list_even, 7), 7)
-        self.assertEqual(searching.binary_search(self.list_even, 9), None)
-        self.assertEqual(searching.binary_search(self.list_odd, 2), 2)
-        self.assertEqual(searching.binary_search(self.list_odd, 5), 5)
-        self.assertEqual(searching.binary_search(self.list_odd, 7), 7)
-        self.assertEqual(searching.binary_search(self.list_odd, 9), None)
-        self.assertEqual(searching.binary_search(self.list_one, 1), 1)
-        self.assertEqual(searching.binary_search(self.list_one, 2), None)
+# test methods for singly linked list
+class TestSinglyLinkedList(unittest.TestCase):
+    pass
 
 
+# test methods from sorting module
 class TestSortMethods(unittest.TestCase):
 
     def setUp(self):
@@ -133,6 +106,41 @@ class TestSortMethods(unittest.TestCase):
         self.assertEqual(self.list_d, self.list_sorted)
         self.assertEqual(self.list_one, [1])
         self.assertEqual(self.list_two, [-10, -5])
+
+
+# test methods from searching module
+class TestSearchMethods(unittest.TestCase):
+
+    def setUp(self):
+        self.list_even = [1, 2, 3, 4, 5, 6, 7, 8]
+        self.list_odd = [1, 2, 3, 4, 5, 6, 7]
+        self.list_one = [1]
+
+    def test_linear_search(self):
+        self.assertEqual(searching.linear_search(self.list_even, 2), 2)
+        self.assertEqual(searching.linear_search(self.list_even, 5), 5)
+        self.assertEqual(searching.linear_search(self.list_even, 4), 4)
+        self.assertEqual(searching.linear_search(self.list_even, 7), 7)
+        self.assertEqual(searching.linear_search(self.list_even, 9), None)
+        self.assertEqual(searching.linear_search(self.list_odd, 2), 2)
+        self.assertEqual(searching.linear_search(self.list_odd, 5), 5)
+        self.assertEqual(searching.linear_search(self.list_odd, 7), 7)
+        self.assertEqual(searching.linear_search(self.list_odd, 9), None)
+        self.assertEqual(searching.linear_search(self.list_one, 1), 1)
+        self.assertEqual(searching.linear_search(self.list_one, 2), None)
+
+    def test_binary_search(self):
+        self.assertEqual(searching.binary_search(self.list_even, 2), 2)
+        self.assertEqual(searching.binary_search(self.list_even, 5), 5)
+        self.assertEqual(searching.binary_search(self.list_even, 4), 4)
+        self.assertEqual(searching.binary_search(self.list_even, 7), 7)
+        self.assertEqual(searching.binary_search(self.list_even, 9), None)
+        self.assertEqual(searching.binary_search(self.list_odd, 2), 2)
+        self.assertEqual(searching.binary_search(self.list_odd, 5), 5)
+        self.assertEqual(searching.binary_search(self.list_odd, 7), 7)
+        self.assertEqual(searching.binary_search(self.list_odd, 9), None)
+        self.assertEqual(searching.binary_search(self.list_one, 1), 1)
+        self.assertEqual(searching.binary_search(self.list_one, 2), None)
 
 
 if __name__ == '__main__':

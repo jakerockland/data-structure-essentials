@@ -24,8 +24,6 @@ def selection_sort(items):
         # swaps the current item with the smallest of unsorted items
         swap(items, i, k)
 
-    return # items are sorted
-
 
 # bubble sort is an O(n^2) algorithm, O(n) at best
 def bubble_sort(items):
@@ -38,9 +36,7 @@ def bubble_sort(items):
                 swap(items, j, j+1)
                 sorted = False
         if sorted:
-            return # items have finished sorting
-
-    return # items are sorted
+            return # items have already finished sorting
 
 
 # insertion sort is an O(n^2) algorithm, O(n) at best
@@ -56,8 +52,6 @@ def insertion_sort(items):
             # swaps the current item with item to left of current item
             swap(items, j, j-1)
             j -= 1
-
-    return # items are sorted
 
 
 # quicksort is an O(n*log(n)) algorithm, O(n^2) at worst
@@ -78,8 +72,6 @@ def quick_sort(items, low = None, high = None):
     # recursively sort low partition and high partition
     quick_sort(items, low, mid)
     quick_sort(items, mid + 1, high)
-
-    return # items are sorted
 
 # helper method to partition items for quicksort algorithm
 def partition_items(items, low, high):
@@ -126,8 +118,6 @@ def merge_sort(items, first = None, last = None):
         # merge partitions together
         merge_items(items, first, mid, last)
 
-    return # items are sorted
-
 # helper method to merge partitions for mergesort algorithm
 def merge_items(items, first, mid, last):
     # temporary array for merged items
@@ -164,8 +154,6 @@ def merge_items(items, first, mid, last):
     for current in range(len(merged_items)):
         items[first + current] = merged_items[current]
 
-    return
-
 
 # heapsort is an O(n*log(n)) algorithm
 def heap_sort(items):
@@ -179,8 +167,6 @@ def heap_sort(items):
         end -= 1
         sift_down(items, 0, end)
 
-    return #items are sorted
-
 # helper method to build heap from list of items
 def heapify(items):
     size = len(items)
@@ -190,8 +176,6 @@ def heapify(items):
     while start >= 0:
         sift_down(items, start, size - 1)
         start -= 1
-
-    return # elements are in heap order
 
 # helper method to repair heap that has root element at 'start' index
 def sift_down(items, start, end):
@@ -218,5 +202,3 @@ def sift_down(items, start, end):
         else:
             swap(items, root, temp)
             root = temp
-
-    return
