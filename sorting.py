@@ -106,9 +106,62 @@ def partition_items(items, low, high):
             low += 1
             high -= 1
 
-    return high
+    return high # returns highest index of low partition
 
 
 # merge sort is an O(n*log(n)) algorithm
-def merge_sort(items):
-    pass # FIXME: Implement this
+def merge_sort(items, first = None, last = None):
+    if first is None:
+        first = 0
+    if last is None:
+        last = len(items) - 1
+
+    if first < last:
+        mid = (first + last) / 2
+
+        # recursively sort left and right partitions
+        merge_sort(items, first, mid)
+        merge_sort(items, mid + 1, last)
+
+        # merge partitions together
+        merge_items(items, first, mid, last)
+
+    return # items are sorted
+
+# helper method to merge partitions for mergesort algorithm
+def merge_items(items, first, mid, last):
+    # temporary array for merged items
+    merged_items = [None] * (last - first + 1)
+
+    # variables for keeping track of merged index and partition locations
+    index = 0
+    left = first
+    right = mid + 1
+
+    # add smallest element from left or right partition to merged items
+    while left <= mid and right <= last:
+        if items[right] > items[left]:
+            merged_items[index] = items[left]
+            left += 1
+        else:
+            merged_items[index] = items[right]
+            right += 1
+        index += 1
+
+    # add remaining items to merged items if left partition is not empty
+    while left <= mid:
+        merged_items[index] = items[left]
+        left += 1
+        index += 1
+
+    # add remaining items to merged items if right partition is not empty
+    while right <= last:
+        merged_items[index] = items[right]
+        right += 1
+        index += 1
+
+    # copy merged items back to items list
+    for index in range(len(merged_items)):
+        items[first + index] = merged_items[index]
+
+    return
