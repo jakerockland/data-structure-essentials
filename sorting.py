@@ -134,35 +134,35 @@ def merge_items(items, first, mid, last):
     merged_items = [None] * (last - first + 1)
 
     # variables for keeping track of merged index and partition locations
-    index = 0
+    current = 0
     left = first
     right = mid + 1
 
     # add smallest element from left or right partition to merged items
     while left <= mid and right <= last:
         if items[right] > items[left]:
-            merged_items[index] = items[left]
+            merged_items[current] = items[left]
             left += 1
         else:
-            merged_items[index] = items[right]
+            merged_items[current] = items[right]
             right += 1
-        index += 1
+        current += 1
 
     # add remaining items to merged items if left partition is not empty
     while left <= mid:
-        merged_items[index] = items[left]
+        merged_items[current] = items[left]
         left += 1
-        index += 1
+        current += 1
 
     # add remaining items to merged items if right partition is not empty
     while right <= last:
-        merged_items[index] = items[right]
+        merged_items[current] = items[right]
         right += 1
-        index += 1
+        current += 1
 
     # copy merged items back to items list
-    for index in range(len(merged_items)):
-        items[first + index] = merged_items[index]
+    for current in range(len(merged_items)):
+        items[first + current] = merged_items[current]
 
     return
 
