@@ -84,22 +84,22 @@ def partition_items(items, low, high):
     return high
 
 # quicksort is an O(n*log(n)) algorithm, O(n^2) at worst
-def quick_sort(items, left = None, right = None):
-    # base case method call
-    if left is None:
-        left = 0
-    if right is None:
-        right = len(items) - 1
+def quick_sort(items, low = None, high = None):
+    # initial method call without optional variables provided
+    if low is None:
+        low = 0
+    if high is None:
+        high = len(items) - 1
 
-    # if there are one or zero entries to sort, partition is already sorted
-    if left >= right:
+    # if there are one or zero items, partition is already sorted
+    if low >= high:
         return # items are sorted
 
-    # partition the data items, index returned is highest item in left partition
-    mid = partition_items(items, left, right)
+    # partition the data items, index returned is highest item in low partition
+    mid = partition_items(items, low, high)
 
-    # recursively sort left partition and right partition
-    quick_sort(items, left, mid)
-    quick_sort(items, mid + 1, right)
+    # recursively sort low partition and high partition
+    quick_sort(items, low, mid)
+    quick_sort(items, mid + 1, high)
 
     return # items are sorted
