@@ -47,6 +47,7 @@ class TestSortMethods(unittest.TestCase):
         self.list_c = [-1, 0, 1, 2, 3, 4, 5]
         self.list_d = [2, -1, 4, 1, 0, 5, 3]
         self.list_one = [1]
+        self.list_two = [-5, -10]
         self.list_sorted = [-1, 0, 1, 2, 3, 4, 5]
 
     def test_selection_sort(self):
@@ -55,11 +56,13 @@ class TestSortMethods(unittest.TestCase):
         sorting.selection_sort(self.list_c)
         sorting.selection_sort(self.list_d)
         sorting.selection_sort(self.list_one)
+        sorting.selection_sort(self.list_two)
         self.assertEqual(self.list_a, self.list_sorted)
         self.assertEqual(self.list_b, self.list_sorted)
         self.assertEqual(self.list_c, self.list_sorted)
         self.assertEqual(self.list_d, self.list_sorted)
-        self.assertEqual(self.list_one, self.list_one)
+        self.assertEqual(self.list_one, [1])
+        self.assertEqual(self.list_two, [-10, -5])
 
     def test_bubble_sort(self):
         sorting.bubble_sort(self.list_a)
@@ -67,11 +70,13 @@ class TestSortMethods(unittest.TestCase):
         sorting.bubble_sort(self.list_c)
         sorting.bubble_sort(self.list_d)
         sorting.bubble_sort(self.list_one)
+        sorting.bubble_sort(self.list_two)
         self.assertEqual(self.list_a, self.list_sorted)
         self.assertEqual(self.list_b, self.list_sorted)
         self.assertEqual(self.list_c, self.list_sorted)
         self.assertEqual(self.list_d, self.list_sorted)
-        self.assertEqual(self.list_one, self.list_one)
+        self.assertEqual(self.list_one, [1])
+        self.assertEqual(self.list_two, [-10, -5])
 
     def test_insertion_sort(self):
         sorting.insertion_sort(self.list_a)
@@ -79,11 +84,13 @@ class TestSortMethods(unittest.TestCase):
         sorting.insertion_sort(self.list_c)
         sorting.insertion_sort(self.list_d)
         sorting.insertion_sort(self.list_one)
+        sorting.insertion_sort(self.list_two)
         self.assertEqual(self.list_a, self.list_sorted)
         self.assertEqual(self.list_b, self.list_sorted)
         self.assertEqual(self.list_c, self.list_sorted)
         self.assertEqual(self.list_d, self.list_sorted)
-        self.assertEqual(self.list_one, self.list_one)
+        self.assertEqual(self.list_one, [1])
+        self.assertEqual(self.list_two, [-10, -5])
 
     def test_quick_sort(self):
         sorting.quick_sort(self.list_a)
@@ -91,11 +98,13 @@ class TestSortMethods(unittest.TestCase):
         sorting.quick_sort(self.list_c)
         sorting.quick_sort(self.list_d)
         sorting.quick_sort(self.list_one)
+        sorting.quick_sort(self.list_two)
         self.assertEqual(self.list_a, self.list_sorted)
         self.assertEqual(self.list_b, self.list_sorted)
         self.assertEqual(self.list_c, self.list_sorted)
         self.assertEqual(self.list_d, self.list_sorted)
-        self.assertEqual(self.list_one, self.list_one)
+        self.assertEqual(self.list_one, [1])
+        self.assertEqual(self.list_two, [-10, -5])
 
     def test_merge_sort(self):
         sorting.merge_sort(self.list_a)
@@ -103,11 +112,13 @@ class TestSortMethods(unittest.TestCase):
         sorting.merge_sort(self.list_c)
         sorting.merge_sort(self.list_d)
         sorting.merge_sort(self.list_one)
+        sorting.merge_sort(self.list_two)
         self.assertEqual(self.list_a, self.list_sorted)
         self.assertEqual(self.list_b, self.list_sorted)
         self.assertEqual(self.list_c, self.list_sorted)
         self.assertEqual(self.list_d, self.list_sorted)
-        self.assertEqual(self.list_one, self.list_one)
+        self.assertEqual(self.list_one, [1])
+        self.assertEqual(self.list_two, [-10, -5])
 
     def test_heap_sort(self):
         sorting.heap_sort(self.list_a)
@@ -115,11 +126,13 @@ class TestSortMethods(unittest.TestCase):
         sorting.heap_sort(self.list_c)
         sorting.heap_sort(self.list_d)
         sorting.heap_sort(self.list_one)
+        sorting.heap_sort(self.list_two)
         self.assertEqual(self.list_a, self.list_sorted)
         self.assertEqual(self.list_b, self.list_sorted)
         self.assertEqual(self.list_c, self.list_sorted)
         self.assertEqual(self.list_d, self.list_sorted)
-        self.assertEqual(self.list_one, self.list_one)
+        self.assertEqual(self.list_one, [1])
+        self.assertEqual(self.list_two, [-10, -5])
 
 
 if __name__ == '__main__':
