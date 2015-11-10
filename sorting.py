@@ -140,7 +140,7 @@ def merge_items(items, first, mid, last):
 
     # add smallest element from left or right partition to merged items
     while left <= mid and right <= last:
-        if items[right] > items[left]:
+        if items[left] < items[right]:
             merged_items[current] = items[left]
             left += 1
         else:
