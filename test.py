@@ -12,7 +12,44 @@ from doubly_linked_list import DoublyLinkedList
 from stack import Stack
 from queue import Queue
 
-from hash_table import HashTableChaining
+from hash_table import HashTableChaining, HashTableLinearProbing
+
+# test methods for hash table implementation using linear probing
+class TestHashTableLinearProbing(unittest.TestCase):
+
+    class Item(object):
+
+        def __init__(self, item):
+            self.item = item
+            self.key = item
+
+        def __repr__(self):
+            return repr(self.item)
+
+        def __eq__(self, other):
+            if isinstance(other, self.__class__):
+                return self.item == other.item
+            else:
+                return False
+
+    def setUp(self):
+        self.hash_table = HashTableLinearProbing(5)
+
+    def test_basic_initialization_and_repr(self):
+        pass
+
+    def test_hash(self):
+        pass
+
+    def test_insert(self):
+        pass
+
+    def test_remove(self):
+        pass
+
+    def test_search(self):
+        pass
+
 
 # test methods for hash table implementation using chaining
 class TestHashTableChaining(unittest.TestCase):
