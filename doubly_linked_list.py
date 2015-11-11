@@ -1,18 +1,18 @@
-# Implementation of a singly linked list data structure
+# Implementation of a doubly linked list data structure
 # By: Jacob Rockland
 
-# node class for linked list
+# node class for doubly linked list
 class Node(object):
 
-    def __init__(self, data = None, next = None):
+    def __init__(self, data = None, next = None, prev = None):
         self.data = data
         self.next = next
+        self.prev = prev
 
 
-# implementation of singly linked list
-class SinglyLinkedList(object):
+# implementation of doubly linked list
+class DoublyLinkedList(object):
 
-    # initializes linked list
     def __init__(self, head = None, tail = None):
         self.head = head
         self.tail = tail
@@ -30,6 +30,15 @@ class SinglyLinkedList(object):
             curr = curr.next
         return array
 
+    # returns an array representation of linked list in reverse
+    def reverse_array(self):
+        array = []
+        curr = self.tail
+        while curr is not None:
+            array.append(curr.data)
+            curr = curr.prev
+        return array
+
     # adds node to end of list
     def append(self, node):
         if self.head is None:
@@ -37,6 +46,7 @@ class SinglyLinkedList(object):
             self.tail = node
         else:
             self.tail.next = node
+            node.prev = self.tail
             self.tail = node
 
     # adds node to front of list
@@ -45,6 +55,7 @@ class SinglyLinkedList(object):
             self.head = node
             self.tail = node
         else:
+            self.head.prev = node
             node.next = self.head
             self.head = node
 
@@ -54,26 +65,32 @@ class SinglyLinkedList(object):
             self.head = node
             self.tail = node
         elif curr is None:
+            self.head.prev = node
             node.next = self.head
             self.head = node
         elif curr is self.tail:
             self.tail.next = node
+            node.prev = self.tail
             self.tail = node
         else:
-            node.next = curr.next
+            succ = curr.next
+            node.next = succ
+            node.prev = curr
             curr.next = node
+            succ.prev = node
 
     # removes node from list after given position
-    def remove_after(self, curr):
-        if self.head is None:
+    def remove(self, curr):
+        if self.head is None or curr is None:
             return
-        elif curr is None:
-            succ = self.head.next
-            self.head = succ
-            if succ is None: # checks if removed last item
-                self.tail = None
-        elif curr.next is not None:
-            succ = curr.next.next
-            curr.next = succ
-            if succ is None: # checks if removed tail item
-                self.tail = curr
+        else:
+            succ = curr.next
+            pred = curr.prev
+            if succ is not None:
+                succ.prev = pred
+            if pred is not None:
+                pred.next = succ
+            if curr is self.head: # removed head
+                self.head = succ
+            if curr is self.tail: # removed tail
+                self.tail = pred

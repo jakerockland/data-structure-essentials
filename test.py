@@ -4,7 +4,69 @@
 import unittest
 import searching
 import sorting
-from singly_linked_list import SinglyLinkedList, Node
+from singly_linked_list import SinglyLinkedList, Node as SingleNode
+from doubly_linked_list import DoublyLinkedList, Node as DoubleNode
+
+# test methods for doubly linked list
+class TestDoublyLinkedList(unittest.TestCase):
+
+    def setUp(self):
+        self.my_list = DoublyLinkedList()
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.my_list), '[]')
+
+    def test_append(self):
+        self.my_list.append(DoubleNode(4))
+        self.my_list.append(DoubleNode(3))
+        self.my_list.append(DoubleNode(7))
+        self.my_list.append(DoubleNode(-17))
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+
+    def test_prepend(self):
+        self.my_list.prepend(DoubleNode(4))
+        self.my_list.prepend(DoubleNode(3))
+        self.my_list.prepend(DoubleNode(7))
+        self.my_list.prepend(DoubleNode(-17))
+        self.assertEqual(repr(self.my_list), '[-17, 7, 3, 4]')
+
+    def test_insert_after(self):
+        self.my_list.insert_after(None, DoubleNode(4))
+        self.my_list.insert_after(None, DoubleNode(3))
+        self.my_list.insert_after(self.my_list.tail, DoubleNode(7))
+        self.my_list.insert_after(self.my_list.head, DoubleNode(-17))
+        self.assertEqual(repr(self.my_list), '[3, -17, 4, 7]')
+
+    def test_remove(self):
+        self.my_list.append(DoubleNode(4))
+        self.my_list.append(DoubleNode(3))
+        self.my_list.append(DoubleNode(7))
+        self.my_list.append(DoubleNode(-17))
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+        self.my_list.remove(self.my_list.head)
+        self.assertEqual(repr(self.my_list), '[3, 7, -17]')
+        self.my_list.remove(self.my_list.head.next)
+        self.assertEqual(repr(self.my_list), '[3, -17]')
+        self.my_list.remove(self.my_list.tail)
+        self.assertEqual(repr(self.my_list), '[3]')
+        self.my_list.remove(self.my_list.head)
+        self.my_list.remove(self.my_list.head)
+        self.assertEqual(repr(self.my_list), '[]')
+
+    def test_array(self):
+        self.my_list.append(DoubleNode(4))
+        self.my_list.append(DoubleNode(3))
+        self.my_list.append(DoubleNode(7))
+        self.my_list.append(DoubleNode(-17))
+        self.assertEqual(self.my_list.array(), [4, 3, 7, -17])
+
+    def test_reverse_array(self):
+        self.my_list.append(DoubleNode(4))
+        self.my_list.append(DoubleNode(3))
+        self.my_list.append(DoubleNode(7))
+        self.my_list.append(DoubleNode(-17))
+        self.assertEqual(self.my_list.reverse_array(), [-17, 7, 3, 4])
+
 
 # test methods for singly linked list
 class TestSinglyLinkedList(unittest.TestCase):
@@ -16,31 +78,31 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.assertEqual(repr(self.my_list), '[]')
 
     def test_append(self):
-        self.my_list.append(Node(4))
-        self.my_list.append(Node(3))
-        self.my_list.append(Node(7))
-        self.my_list.append(Node(-17))
+        self.my_list.append(SingleNode(4))
+        self.my_list.append(SingleNode(3))
+        self.my_list.append(SingleNode(7))
+        self.my_list.append(SingleNode(-17))
         self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
 
     def test_prepend(self):
-        self.my_list.prepend(Node(4))
-        self.my_list.prepend(Node(3))
-        self.my_list.prepend(Node(7))
-        self.my_list.prepend(Node(-17))
+        self.my_list.prepend(SingleNode(4))
+        self.my_list.prepend(SingleNode(3))
+        self.my_list.prepend(SingleNode(7))
+        self.my_list.prepend(SingleNode(-17))
         self.assertEqual(repr(self.my_list), '[-17, 7, 3, 4]')
 
     def test_insert_after(self):
-        self.my_list.insert_after(None, Node(4))
-        self.my_list.insert_after(None, Node(3))
-        self.my_list.insert_after(self.my_list.tail, Node(7))
-        self.my_list.insert_after(self.my_list.head, Node(-17))
+        self.my_list.insert_after(None, SingleNode(4))
+        self.my_list.insert_after(None, SingleNode(3))
+        self.my_list.insert_after(self.my_list.tail, SingleNode(7))
+        self.my_list.insert_after(self.my_list.head, SingleNode(-17))
         self.assertEqual(repr(self.my_list), '[3, -17, 4, 7]')
 
     def test_remove_after(self):
-        self.my_list.append(Node(4))
-        self.my_list.append(Node(3))
-        self.my_list.append(Node(7))
-        self.my_list.append(Node(-17))
+        self.my_list.append(SingleNode(4))
+        self.my_list.append(SingleNode(3))
+        self.my_list.append(SingleNode(7))
+        self.my_list.append(SingleNode(-17))
         self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
         self.my_list.remove_after(None)
         self.assertEqual(repr(self.my_list), '[3, 7, -17]')
@@ -52,6 +114,13 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.my_list.remove_after(None)
         self.my_list.remove_after(None)
         self.assertEqual(repr(self.my_list), '[]')
+
+    def test_array(self):
+        self.my_list.append(SingleNode(4))
+        self.my_list.append(SingleNode(3))
+        self.my_list.append(SingleNode(7))
+        self.my_list.append(SingleNode(-17))
+        self.assertEqual(self.my_list.array(), [4, 3, 7, -17])
 
 
 # test methods from sorting module
