@@ -77,3 +77,12 @@ class SinglyLinkedList(object):
             curr.next = succ
             if succ is None: # checks if removed tail item
                 self.tail = curr
+
+    # searches for a given data value in list and returns first node if found
+    def search(self, key):
+        curr = self.head
+        while curr is not None:
+            if curr.data == key:
+                return curr
+            curr = curr.next
+        return None

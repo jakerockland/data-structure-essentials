@@ -94,3 +94,12 @@ class DoublyLinkedList(object):
                 self.head = succ
             if curr is self.tail: # removed tail
                 self.tail = pred
+
+    # searches for a given data value in list and returns first node if found
+    def search(self, key):
+        curr = self.head
+        while curr is not None:
+            if curr.data == key:
+                return curr
+            curr = curr.next
+        return None

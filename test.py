@@ -67,6 +67,20 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.my_list.append(DoubleNode(-17))
         self.assertEqual(self.my_list.reverse_array(), [-17, 7, 3, 4])
 
+    def test_search(self):
+        node1 = DoubleNode(4)
+        node2 = DoubleNode(3)
+        node3 = DoubleNode(7)
+        node4 = DoubleNode(-17)
+        self.my_list.append(node1)
+        self.my_list.append(node2)
+        self.my_list.append(node3)
+        self.my_list.append(node4)
+        self.assertEqual(self.my_list.search(4), node1)
+        self.assertEqual(self.my_list.search(3), node2)
+        self.assertEqual(self.my_list.search(-17), node4)
+        self.assertEqual(self.my_list.search(17), None)
+
 
 # test methods for singly linked list
 class TestSinglyLinkedList(unittest.TestCase):
@@ -121,6 +135,20 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.my_list.append(SingleNode(7))
         self.my_list.append(SingleNode(-17))
         self.assertEqual(self.my_list.array(), [4, 3, 7, -17])
+
+    def test_search(self):
+        node1 = SingleNode(4)
+        node2 = SingleNode(3)
+        node3 = SingleNode(7)
+        node4 = SingleNode(-17)
+        self.my_list.append(node1)
+        self.my_list.append(node2)
+        self.my_list.append(node3)
+        self.my_list.append(node4)
+        self.assertEqual(self.my_list.search(4), node1)
+        self.assertEqual(self.my_list.search(3), node2)
+        self.assertEqual(self.my_list.search(-17), node4)
+        self.assertEqual(self.my_list.search(17), None)
 
 
 # test methods from sorting module
