@@ -40,7 +40,8 @@ class DoublyLinkedList(object):
         return array
 
     # adds node to end of list
-    def append(self, node):
+    def append(self, item):
+        node = Node(item)
         if self.head is None:
             self.head = node
             self.tail = node
@@ -50,7 +51,8 @@ class DoublyLinkedList(object):
             self.tail = node
 
     # adds node to front of list
-    def prepend(self, node):
+    def prepend(self, item):
+        node = Node(item)
         if self.head is None:
             self.head = node
             self.tail = node
@@ -60,7 +62,8 @@ class DoublyLinkedList(object):
             self.head = node
 
     # inserts node into list after given position
-    def insert_after(self, curr, node):
+    def insert_after(self, curr, item):
+        node = Node(item)
         if self.head is None:
             self.head = node
             self.tail = node

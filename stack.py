@@ -1,7 +1,7 @@
 # Implementation of a stack ADT using a singly linked list
 # By: Jacob Rockland
 
-from singly_linked_list import SinglyLinkedList, Node
+from singly_linked_list import SinglyLinkedList
 
 # implementation of stack
 class Stack(object):
@@ -25,7 +25,7 @@ class Stack(object):
 
     # pushes new item to top of stack
     def push(self, item):
-        self.__linked_list.prepend(Node(item))
+        self.__linked_list.prepend(item)
         self.length += 1
 
     # returns item at top of stack and removes it

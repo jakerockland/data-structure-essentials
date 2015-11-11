@@ -1,7 +1,7 @@
 # Implementation of a queue ADT using a singly linked list
 # By: Jacob Rockland
 
-from singly_linked_list import SinglyLinkedList, Node
+from singly_linked_list import SinglyLinkedList
 
 # implementation of queue
 class Queue(object):
@@ -25,7 +25,7 @@ class Queue(object):
 
     # pushes new item to back of queue
     def push(self, item):
-        self.__linked_list.append(Node(item))
+        self.__linked_list.append(item)
         self.length += 1
 
     # returns item at front of queue and removes it
