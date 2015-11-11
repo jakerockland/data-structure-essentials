@@ -2,10 +2,66 @@
 # By: Jacob Rockland
 
 import unittest
+
 import searching
 import sorting
+
 from singly_linked_list import SinglyLinkedList, Node as SingleNode
 from doubly_linked_list import DoublyLinkedList, Node as DoubleNode
+
+from stack import Stack
+
+# test methods for stack ADT
+class TestStack(unittest.TestCase):
+
+    def setUp(self):
+        self.stack = Stack()
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.stack), '[]')
+
+    def test_push(self):
+        self.stack.push("!")
+        self.assertEqual(repr(self.stack), "['!']")
+        self.stack.push("world")
+        self.assertEqual(repr(self.stack), "['world', '!']")
+        self.stack.push("Hello")
+        self.assertEqual(repr(self.stack), "['Hello', 'world', '!']")
+
+    def test_pop(self):
+        self.stack.push("!")
+        self.stack.push("world")
+        self.stack.push("Hello")
+        self.assertEqual(repr(self.stack), "['Hello', 'world', '!']")
+        self.assertEqual(self.stack.pop(), 'Hello')
+        self.assertEqual(repr(self.stack), "['world', '!']")
+        self.assertEqual(self.stack.pop(), 'world')
+        self.assertEqual(repr(self.stack), "['!']")
+
+    def test_peek(self):
+        self.stack.push("!")
+        self.assertEqual(self.stack.peek(), '!')
+        self.stack.push("world")
+        self.assertEqual(self.stack.peek(), 'world')
+        self.stack.push("Hello")
+        self.assertEqual(self.stack.peek(), 'Hello')
+
+    def test_is_empty(self):
+        self.assertTrue(self.stack.is_empty())
+        self.stack.push("Hello world!")
+        self.assertFalse(self.stack.is_empty())
+
+    def test_get_length(self):
+        self.assertEqual(self.stack.get_length(), 0)
+        self.stack.push("Hello world!")
+        self.assertEqual(self.stack.get_length(), 1)
+        self.stack.push("Hello world!")
+        self.assertEqual(self.stack.get_length(), 2)
+        self.stack.pop()
+        self.assertEqual(self.stack.get_length(), 1)
+        self.stack.pop()
+        self.assertEqual(self.stack.get_length(), 0)
+
 
 # test methods for doubly linked list
 class TestDoublyLinkedList(unittest.TestCase):
