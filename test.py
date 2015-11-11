@@ -4,11 +4,54 @@
 import unittest
 import searching
 import sorting
-import singly_linked_list
+from singly_linked_list import SinglyLinkedList, Node
 
 # test methods for singly linked list
 class TestSinglyLinkedList(unittest.TestCase):
-    pass
+
+    def setUp(self):
+        self.my_list = SinglyLinkedList()
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.my_list), '[]')
+
+    def test_append(self):
+        self.my_list.append(Node(4))
+        self.my_list.append(Node(3))
+        self.my_list.append(Node(7))
+        self.my_list.append(Node(-17))
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+
+    def test_prepend(self):
+        self.my_list.prepend(Node(4))
+        self.my_list.prepend(Node(3))
+        self.my_list.prepend(Node(7))
+        self.my_list.prepend(Node(-17))
+        self.assertEqual(repr(self.my_list), '[-17, 7, 3, 4]')
+
+    def test_insert_after(self):
+        self.my_list.insert_after(None, Node(4))
+        self.my_list.insert_after(None, Node(3))
+        self.my_list.insert_after(self.my_list.tail, Node(7))
+        self.my_list.insert_after(self.my_list.head, Node(-17))
+        self.assertEqual(repr(self.my_list), '[3, -17, 4, 7]')
+
+    def test_remove_after(self):
+        self.my_list.append(Node(4))
+        self.my_list.append(Node(3))
+        self.my_list.append(Node(7))
+        self.my_list.append(Node(-17))
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+        self.my_list.remove_after(None)
+        self.assertEqual(repr(self.my_list), '[3, 7, -17]')
+        self.my_list.remove_after(self.my_list.head)
+        self.assertEqual(repr(self.my_list), '[3, -17]')
+        self.my_list.remove_after(self.my_list.tail)
+        self.assertEqual(repr(self.my_list), '[3, -17]')
+        self.my_list.remove_after(None)
+        self.my_list.remove_after(None)
+        self.my_list.remove_after(None)
+        self.assertEqual(repr(self.my_list), '[]')
 
 
 # test methods from sorting module
