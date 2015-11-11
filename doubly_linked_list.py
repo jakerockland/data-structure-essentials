@@ -4,10 +4,10 @@
 # node class for doubly linked list
 class Node(object):
 
-    def __init__(self, data = None, next = None, prev = None):
+    def __init__(self, data):
         self.data = data
-        self.next = next
-        self.prev = prev
+        self.next = None
+        self.prev = None
 
 
 # implementation of doubly linked list

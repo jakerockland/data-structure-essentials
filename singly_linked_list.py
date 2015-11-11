@@ -4,9 +4,9 @@
 # node class for linked list
 class Node(object):
 
-    def __init__(self, data = None, next = None):
+    def __init__(self, data):
         self.data = data
-        self.next = next
+        self.next = None
 
 
 # implementation of singly linked list

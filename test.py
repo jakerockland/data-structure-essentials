@@ -12,6 +12,66 @@ from doubly_linked_list import DoublyLinkedList
 from stack import Stack
 from queue import Queue
 
+from hash_table import HashTableChaining
+
+# test methods for hash table implementation using chaining
+class TestHashTableChaining(unittest.TestCase):
+
+    class Item(object):
+
+        def __init__(self, item):
+            self.item = item
+            self.key = item
+
+        def __repr__(self):
+            return repr(self.item)
+
+        def __eq__(self, other):
+            if isinstance(other, self.__class__):
+                return self.item == other.item
+            else:
+                return False
+
+    def setUp(self):
+        self.hash_table = HashTableChaining(5)
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.hash_table), '[None, None, None, None, None]')
+
+    def test_hash(self):
+        self.assertEqual(self.hash_table.hash(17), 2)
+        self.assertEqual(self.hash_table.hash(27), 2)
+        self.assertEqual(self.hash_table.hash(12), 2)
+        self.assertEqual(self.hash_table.hash(14), 4)
+        self.assertEqual(self.hash_table.hash(1), 1)
+        self.assertEqual(self.hash_table.hash(13), 3)
+        self.assertEqual(self.hash_table.hash(20), 0)
+
+    def test_insert(self):
+        self.hash_table.insert(self.Item(3))
+        self.assertEqual(repr(self.hash_table), '[None, None, None, [3], None]')
+        self.hash_table.insert(self.Item(13))
+        self.assertEqual(repr(self.hash_table), '[None, None, None, [3, 13], None]')
+        self.hash_table.insert(self.Item(5))
+        self.assertEqual(repr(self.hash_table), '[[5], None, None, [3, 13], None]')
+
+    def test_remove(self):
+        self.hash_table.insert(self.Item(3))
+        self.hash_table.insert(self.Item(13))
+        self.hash_table.insert(self.Item(5))
+        self.assertEqual(repr(self.hash_table), '[[5], None, None, [3, 13], None]')
+        self.hash_table.remove(self.Item(13))
+        self.assertEqual(repr(self.hash_table), '[[5], None, None, [3], None]')
+        self.hash_table.remove(self.Item(5))
+        self.assertEqual(repr(self.hash_table), '[[], None, None, [3], None]')
+
+    def test_search(self):
+        self.hash_table.insert(self.Item(3))
+        self.hash_table.insert(self.Item(5))
+        self.assertEqual(self.hash_table.search(self.Item(4)), None)
+        self.assertEqual(self.hash_table.search(self.Item(5)), self.Item(5))
+
+
 # test methods for queue ADT
 class TestQueue(unittest.TestCase):
 
