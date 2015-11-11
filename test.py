@@ -10,6 +10,57 @@ from singly_linked_list import SinglyLinkedList, Node as SingleNode
 from doubly_linked_list import DoublyLinkedList, Node as DoubleNode
 
 from stack import Stack
+from queue import Queue
+
+# test methods for queue ADT
+class TestQueue(unittest.TestCase):
+
+    def setUp(self):
+        self.queue = Queue()
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.queue), '[]')
+
+    def test_push(self):
+        self.queue.push("!")
+        self.assertEqual(repr(self.queue), "['!']")
+        self.queue.push("world")
+        self.assertEqual(repr(self.queue), "['!', 'world']")
+        self.queue.push("Hello")
+        self.assertEqual(repr(self.queue), "['!', 'world', 'Hello']")
+
+    def test_pop(self):
+        self.queue.push("!")
+        self.queue.push("world")
+        self.queue.push("Hello")
+        self.assertEqual(repr(self.queue), "['!', 'world', 'Hello']")
+        self.assertEqual(self.queue.pop(), '!')
+        self.assertEqual(repr(self.queue), "['world', 'Hello']")
+        self.assertEqual(self.queue.pop(), 'world')
+        self.assertEqual(repr(self.queue), "['Hello']")
+
+    def test_peek(self):
+        self.queue.push("!")
+        self.assertEqual(self.queue.peek(), '!')
+        self.queue.push("world")
+        self.assertEqual(self.queue.peek(), '!')
+
+    def test_is_empty(self):
+        self.assertTrue(self.queue.is_empty())
+        self.queue.push("Hello world!")
+        self.assertFalse(self.queue.is_empty())
+
+    def test_get_length(self):
+        self.assertEqual(self.queue.get_length(), 0)
+        self.queue.push("Hello world!")
+        self.assertEqual(self.queue.get_length(), 1)
+        self.queue.push("Hello world!")
+        self.assertEqual(self.queue.get_length(), 2)
+        self.queue.pop()
+        self.assertEqual(self.queue.get_length(), 1)
+        self.queue.pop()
+        self.assertEqual(self.queue.get_length(), 0)
+
 
 # test methods for stack ADT
 class TestStack(unittest.TestCase):
