@@ -36,19 +36,53 @@ class TestHashTableLinearProbing(unittest.TestCase):
         self.hash_table = HashTableLinearProbing(5)
 
     def test_basic_initialization_and_repr(self):
-        pass
+        self.assertEqual(repr(self.hash_table), '[False, False, False, False, False]')
 
     def test_hash(self):
-        pass
+        self.assertEqual(self.hash_table.hash(17), 2)
+        self.assertEqual(self.hash_table.hash(27), 2)
+        self.assertEqual(self.hash_table.hash(12), 2)
+        self.assertEqual(self.hash_table.hash(14), 4)
+        self.assertEqual(self.hash_table.hash(1), 1)
+        self.assertEqual(self.hash_table.hash(13), 3)
+        self.assertEqual(self.hash_table.hash(20), 0)
 
     def test_insert(self):
-        pass
+        self.hash_table.insert(self.Item(3))
+        self.assertEqual(repr(self.hash_table), '[False, False, False, 3, False]')
+        self.hash_table.insert(self.Item(11))
+        self.assertEqual(repr(self.hash_table), '[False, 11, False, 3, False]')
+        self.hash_table.insert(self.Item(23))
+        self.assertEqual(repr(self.hash_table), '[False, 11, False, 3, 23]')
+        self.hash_table.insert(self.Item(33))
+        self.assertEqual(repr(self.hash_table), '[33, 11, False, 3, 23]')
+        self.hash_table.insert(self.Item(21))
+        self.assertEqual(repr(self.hash_table), '[33, 11, 21, 3, 23]')
 
     def test_remove(self):
-        pass
+        self.hash_table.insert(self.Item(3))
+        self.hash_table.insert(self.Item(11))
+        self.hash_table.insert(self.Item(23))
+        self.hash_table.insert(self.Item(33))
+        self.assertEqual(repr(self.hash_table), '[33, 11, False, 3, 23]')
+        self.hash_table.remove(33)
+        self.assertEqual(repr(self.hash_table), '[True, 11, False, 3, 23]')
+        self.hash_table.remove(21)
+        self.assertEqual(repr(self.hash_table), '[True, 11, False, 3, 23]')
+        self.hash_table.remove(21)
+        self.assertEqual(repr(self.hash_table), '[True, 11, False, 3, 23]')
+        self.hash_table.remove(11)
+        self.assertEqual(repr(self.hash_table), '[True, True, False, 3, 23]')
+        self.hash_table.remove(23)
+        self.assertEqual(repr(self.hash_table), '[True, True, False, 3, True]')
+        self.hash_table.remove(3)
+        self.assertEqual(repr(self.hash_table), '[True, True, False, True, True]')
 
     def test_search(self):
-        pass
+        self.hash_table.insert(self.Item(3))
+        self.hash_table.insert(self.Item(5))
+        self.assertEqual(self.hash_table.search(4), None)
+        self.assertEqual(self.hash_table.search(5), self.Item(5))
 
 
 # test methods for hash table implementation using chaining
