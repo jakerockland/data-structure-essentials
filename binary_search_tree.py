@@ -19,19 +19,25 @@ class BinarySearchTree(object):
 
     # returns a string representation of tree
     def __repr__(self):
-        return repr(self.in_order_list())
+        return self.in_order(self.root)
 
-    # returns an in-order list representation of the tree
-    def in_order_list(self, node = self.root):
-        return [] # FIXME
+    # returns an in-order string representation of the tree
+    def in_order(self, node):
+        if node is None:
+            return ''
+        return self.in_order(node.left_child) + str(node.data + ' ') + self.in_order(node.right_child)
 
-    # returns an pre-order list representation of the tree
-    def pre_order_list(self, node = self.root):
-        return [] # FIXME
+    # returns an pre-order string representation of the tree
+    def pre_order(self, node):
+        if node is None:
+            return ''
+        return str(node.data + ' ') + self.pre_order(node.left_child) + self.pre_order(node.right_child)
 
-    # returns an post-order list representation of the tree
-    def post_order_list(self, node = self.root):
-        return [] # FIXME
+    # returns an post-order string representation of the tree
+    def post_order(self, node):
+        if node is None:
+            return ''
+        return self.post_order(node.left_child) + self.post_order(node.right_child) + str(node.data + ' ')
 
     # searches for a node with the data of given key, O(log(n)) on average
     def search(self, data):
@@ -67,8 +73,10 @@ class BinarySearchTree(object):
                         curr = curr.right_child
 
     # removes the first found item in the tree with matching data, O(log(n)) on average
-    def remove(self, data, curr = self.root):
-        curr = curr
+    def remove(self, data, start = None):
+        if start is None:
+            start = self.root
+        curr = start
         prev = None
         while curr is not None:
             if curr.data == data: # node to be removed is found

@@ -14,6 +14,104 @@ from queue import Queue
 
 from hash_table import HashTableChaining, HashTableLinearProbing
 
+from binary_search_tree import BinarySearchTree
+
+# test methods for BST implementation using linear probing
+class TestBinarySearchTree(unittest.TestCase):
+
+    def setUp(self):
+        self.tree = BinarySearchTree()
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.tree), '')
+
+    def test_insert(self):
+        self.tree.insert('C')
+        self.assertEqual(repr(self.tree), 'C ')
+        self.tree.insert('D')
+        self.assertEqual(repr(self.tree), 'C D ')
+        self.tree.insert('A')
+        self.assertEqual(repr(self.tree), 'A C D ')
+        self.tree.insert('B')
+        self.assertEqual(repr(self.tree), 'A B C D ')
+        self.tree.insert('F')
+        self.assertEqual(repr(self.tree), 'A B C D F ')
+        self.tree.insert('E')
+        self.assertEqual(repr(self.tree), 'A B C D E F ')
+
+    def test_search(self):
+        self.tree.insert('C')
+        self.tree.insert('D')
+        self.tree.insert('A')
+        self.tree.insert('B')
+        self.tree.insert('F')
+        self.tree.insert('E')
+        self.assertEqual(self.tree.search('A').data, 'A')
+        self.assertEqual(self.tree.search('B').data, 'B')
+        self.assertEqual(self.tree.search('C').data, 'C')
+        self.assertEqual(self.tree.search('D').data, 'D')
+        self.assertEqual(self.tree.search('E').data, 'E')
+        self.assertEqual(self.tree.search('F').data, 'F')
+        self.assertEqual(self.tree.search('G'), None)
+
+    def test_remove(self):
+        self.tree.insert('C')
+        self.tree.insert('D')
+        self.tree.insert('A')
+        self.tree.insert('B')
+        self.tree.insert('F')
+        self.tree.insert('E')
+        self.assertEqual(repr(self.tree), 'A B C D E F ')
+        self.tree.remove('E')
+        self.assertEqual(repr(self.tree), 'A B C D F ')
+        self.tree.remove('B')
+        self.assertEqual(repr(self.tree), 'A C D F ')
+        self.tree.remove('A')
+        self.assertEqual(repr(self.tree), 'C D F ')
+        self.tree.remove('C')
+        self.assertEqual(repr(self.tree), 'D F ')
+        self.tree.remove('D')
+        self.assertEqual(repr(self.tree), 'F ')
+        self.tree.remove('F')
+        self.assertEqual(repr(self.tree), '')
+
+    def test_in_order(self):
+        self.tree.insert('F')
+        self.tree.insert('G')
+        self.tree.insert('B')
+        self.tree.insert('A')
+        self.tree.insert('D')
+        self.tree.insert('I')
+        self.tree.insert('H')
+        self.tree.insert('E')
+        self.tree.insert('C')
+        self.assertEqual(self.tree.in_order(self.tree.root), 'A B C D E F G H I ')
+
+    def test_pre_order(self):
+        self.tree.insert('F')
+        self.tree.insert('G')
+        self.tree.insert('B')
+        self.tree.insert('A')
+        self.tree.insert('D')
+        self.tree.insert('I')
+        self.tree.insert('H')
+        self.tree.insert('E')
+        self.tree.insert('C')
+        self.assertEqual(self.tree.pre_order(self.tree.root), 'F B A D C E G I H ')
+
+    def test_post_order(self):
+        self.tree.insert('F')
+        self.tree.insert('G')
+        self.tree.insert('B')
+        self.tree.insert('A')
+        self.tree.insert('D')
+        self.tree.insert('I')
+        self.tree.insert('H')
+        self.tree.insert('E')
+        self.tree.insert('C')
+        self.assertEqual(self.tree.post_order(self.tree.root), 'A C E D B H I G F ')
+
+
 # test methods for hash table implementation using linear probing
 class TestHashTableLinearProbing(unittest.TestCase):
 
@@ -221,23 +319,23 @@ class TestStack(unittest.TestCase):
         self.assertEqual(repr(self.stack), "['!']")
 
     def test_peek(self):
-        self.stack.push("!")
+        self.stack.push('!')
         self.assertEqual(self.stack.peek(), '!')
-        self.stack.push("world")
+        self.stack.push('world')
         self.assertEqual(self.stack.peek(), 'world')
-        self.stack.push("Hello")
+        self.stack.push('Hello')
         self.assertEqual(self.stack.peek(), 'Hello')
 
     def test_is_empty(self):
         self.assertTrue(self.stack.is_empty())
-        self.stack.push("Hello world!")
+        self.stack.push('Hello world!')
         self.assertFalse(self.stack.is_empty())
 
     def test_get_length(self):
         self.assertEqual(self.stack.get_length(), 0)
-        self.stack.push("Hello world!")
+        self.stack.push('Hello world!')
         self.assertEqual(self.stack.get_length(), 1)
-        self.stack.push("Hello world!")
+        self.stack.push('Hello world!')
         self.assertEqual(self.stack.get_length(), 2)
         self.stack.pop()
         self.assertEqual(self.stack.get_length(), 1)
