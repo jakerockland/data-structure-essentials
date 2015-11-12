@@ -16,7 +16,29 @@ from hash_table import HashTableChaining, HashTableLinearProbing
 
 from binary_search_tree import BinarySearchTree
 
-from heap import MaxHeap, MinHeap
+from heap import MinHeap, MaxHeap, heap_sort_accending, heap_sort_decending
+
+# test method for heap sort in accending order
+class TestHeapSortAccending(unittest.TestCase):
+
+    def test_heap_sort_accending(self):
+        self.assertEqual([], heap_sort_accending([]))
+        self.assertEqual([-2, -1, 3, 4, 5], heap_sort_accending([3, -2, 4, -1, 5]))
+        self.assertEqual([-2, -1, 3, 4, 5], heap_sort_accending([-2, -1, 5, 3, 4]))
+        self.assertEqual([-2, -1, 3, 4, 5], heap_sort_accending([-1, -2, 3, 4, 5]))
+        self.assertEqual([-2, -1, 3, 4, 5], heap_sort_accending([5, 4, 3, -2, -1]))
+
+
+# test method for heap sort in decending order
+class TestHeapSortDecending(unittest.TestCase):
+
+    def test_heap_sort_decending(self):
+        self.assertEqual([], heap_sort_decending([]))
+        self.assertEqual([5, 4, 3, -1, -2], heap_sort_decending([3, -2, 4, -1, 5]))
+        self.assertEqual([5, 4, 3, -1, -2], heap_sort_decending([-2, -1, 5, 3, 4]))
+        self.assertEqual([5, 4, 3, -1, -2], heap_sort_decending([-1, -2, 3, 4, 5]))
+        self.assertEqual([5, 4, 3, -1, -2], heap_sort_decending([5, 4, 3, -2, -1]))
+
 
 # test methods for max-heap
 class TestMaxHeap(unittest.TestCase):
@@ -27,8 +49,53 @@ class TestMaxHeap(unittest.TestCase):
     def test_basic_initialization_and_repr(self):
         self.assertEqual(repr(self.heap), '[]')
 
+    def test_insert(self):
+        self.heap.insert(4)
+        self.assertEqual(repr(self.heap), '[4]')
+        self.assertEqual(self.heap.size, 1)
+        self.heap.insert(4)
+        self.assertEqual(repr(self.heap), '[4, 4]')
+        self.assertEqual(self.heap.size, 2)
+        self.heap.insert(6)
+        self.assertEqual(repr(self.heap), '[6, 4, 4]')
+        self.assertEqual(self.heap.size, 3)
+        self.heap.insert(1)
+        self.assertEqual(repr(self.heap), '[6, 4, 4, 1]')
+        self.assertEqual(self.heap.size, 4)
+        self.heap.insert(7)
+        self.assertEqual(repr(self.heap), '[7, 6, 4, 1, 4]')
+        self.assertEqual(self.heap.size, 5)
 
-# test methods for max-heap
+    def test_get_max(self):
+        self.assertEqual(self.heap.get_max(), None)
+        self.heap.insert(-7)
+        self.assertEqual(self.heap.get_max(), -7)
+        self.heap.insert(7)
+        self.assertEqual(self.heap.get_max(), 7)
+        self.heap.insert(5)
+        self.assertEqual(self.heap.get_max(), 7)
+        self.heap.insert(12)
+        self.assertEqual(self.heap.get_max(), 12)
+
+    def test_extract_min(self):
+        self.heap.insert(4)
+        self.heap.insert(5)
+        self.heap.insert(7)
+        self.heap.insert(2)
+        self.heap.insert(-1)
+        self.assertEqual(self.heap.extract_max(), 7)
+        self.assertEqual(self.heap.extract_max(), 5)
+        self.assertEqual(self.heap.extract_max(), 4)
+        self.assertEqual(self.heap.extract_max(), 2)
+        self.assertEqual(self.heap.extract_max(), -1)
+        self.assertEqual(self.heap.extract_max(), None)
+
+    def test_build_heap(self):
+        self.heap.build_heap([4, 4, 6, 1, 7])
+        self.assertEqual(repr(self.heap), '[7, 4, 6, 1, 4]')
+
+
+# test methods for min-heap
 class TestMinHeap(unittest.TestCase):
 
     def setUp(self):
@@ -36,6 +103,51 @@ class TestMinHeap(unittest.TestCase):
 
     def test_basic_initialization_and_repr(self):
         self.assertEqual(repr(self.heap), '[]')
+
+    def test_insert(self):
+        self.heap.insert(4)
+        self.assertEqual(repr(self.heap), '[4]')
+        self.assertEqual(self.heap.size, 1)
+        self.heap.insert(4)
+        self.assertEqual(repr(self.heap), '[4, 4]')
+        self.assertEqual(self.heap.size, 2)
+        self.heap.insert(6)
+        self.assertEqual(repr(self.heap), '[4, 4, 6]')
+        self.assertEqual(self.heap.size, 3)
+        self.heap.insert(1)
+        self.assertEqual(repr(self.heap), '[1, 4, 6, 4]')
+        self.assertEqual(self.heap.size, 4)
+        self.heap.insert(3)
+        self.assertEqual(repr(self.heap), '[1, 3, 6, 4, 4]')
+        self.assertEqual(self.heap.size, 5)
+
+    def test_get_min(self):
+        self.assertEqual(self.heap.get_min(), None)
+        self.heap.insert(4)
+        self.assertEqual(self.heap.get_min(), 4)
+        self.heap.insert(7)
+        self.assertEqual(self.heap.get_min(), 4)
+        self.heap.insert(2)
+        self.assertEqual(self.heap.get_min(), 2)
+        self.heap.insert(-1)
+        self.assertEqual(self.heap.get_min(), -1)
+
+    def test_extract_min(self):
+        self.heap.insert(4)
+        self.heap.insert(5)
+        self.heap.insert(7)
+        self.heap.insert(2)
+        self.heap.insert(-1)
+        self.assertEqual(self.heap.extract_min(), -1)
+        self.assertEqual(self.heap.extract_min(), 2)
+        self.assertEqual(self.heap.extract_min(), 4)
+        self.assertEqual(self.heap.extract_min(), 5)
+        self.assertEqual(self.heap.extract_min(), 7)
+        self.assertEqual(self.heap.extract_min(), None)
+
+    def test_build_heap(self):
+        self.heap.build_heap([4, 4, 6, 1, 3])
+        self.assertEqual(repr(self.heap), '[1, 3, 6, 4, 4]')
 
 
 # test methods for BST implementation

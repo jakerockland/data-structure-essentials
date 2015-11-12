@@ -1,6 +1,20 @@
 # Implementation of min and max heap data structures
 # By: Jacob Rockland
 
+# implementation of heap sort returning list in accending order, O(n*log(n))
+def heap_sort_accending(items):
+    heap = MinHeap(items)
+    sorted = [heap.extract_min() for i in range(heap.size)]
+    return sorted
+
+
+# implementation of heap sort returning list in decending order, O(n*log(n))
+def heap_sort_decending(items):
+    heap = MaxHeap(items)
+    sorted = [heap.extract_max() for i in range(heap.size)]
+    return sorted
+
+
 # implementation of min-heap
 class MinHeap(object):
 
@@ -49,14 +63,17 @@ class MinHeap(object):
                 self.heap_list[index] = temp
             index = index // 2
 
-    # removes the minimum item in heap, O(log(n))
-    def remove_min(self, data):
-        min_val = self.heap_list[1]
-        self.heap_list[1] = self.heap_list[self.size]
-        self.size -= 1
-        self.heap_list.pop()
-        self.percolate_down(1)
-        return min_val
+    # extract the minimum item in heap, O(log(n))
+    def extract_min(self):
+        if self.size > 0:
+            min_val = self.heap_list[1]
+            self.heap_list[1] = self.heap_list[self.size]
+            self.size -= 1
+            self.heap_list.pop()
+            self.percolate_down(1)
+            return min_val
+        else:
+            return None
 
     # percolates item in heap list downwards
     def percolate_down(self, index):
@@ -127,24 +144,27 @@ class MaxHeap(object):
                 self.heap_list[index] = temp
             index = index // 2
 
-    # removes the maximum item in heap, O(log(n))
-    def remove_max(self, data):
-        max_val = self.heap_list[1]
-        self.heap_list[1] = self.heap_list[self.size]
-        self.size -= 1
-        self.heap_list.pop()
-        self.percolate_down(1)
-        return max_val
+    # exctract the maximum item in heap, O(log(n))
+    def extract_max(self):
+        if self.size > 0:
+            max_val = self.heap_list[1]
+            self.heap_list[1] = self.heap_list[self.size]
+            self.size -= 1
+            self.heap_list.pop()
+            self.percolate_down(1)
+            return max_val
+        else:
+            return None
 
     # percolates item in heap list downwards
     def percolate_down(self, index):
         # percolates downwards so long as current node is smaller than child
         while index * 2 <= self.size:
             max = self.max_child(index)
-            if self.heap_list[index] < self.heap_list[min]:
+            if self.heap_list[index] < self.heap_list[max]:
                 temp = self.heap_list[index]
-                self.heap_list[index] = self.heap_list[min]
-                self.heap_list[min] = temp
+                self.heap_list[index] = self.heap_list[max]
+                self.heap_list[max] = temp
             index = max
 
     # returns index of greatest child of subtree
