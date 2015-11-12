@@ -30,7 +30,7 @@ class SinglyLinkedList(object):
             curr = curr.next
         return array
 
-    # adds node to end of list
+    # adds node to end of list, O(1)
     def append(self, item):
         node = Node(item)
         if self.head is None:
@@ -40,7 +40,7 @@ class SinglyLinkedList(object):
             self.tail.next = node
             self.tail = node
 
-    # adds node to front of list
+    # adds node to front of list, O(1)
     def prepend(self, item):
         node = Node(item)
         if self.head is None:
@@ -50,7 +50,7 @@ class SinglyLinkedList(object):
             node.next = self.head
             self.head = node
 
-    # inserts node into list after given position
+    # inserts node into list after given position, O(1)
     def insert_after(self, curr, item):
         node = Node(item)
         if self.head is None:
@@ -66,7 +66,7 @@ class SinglyLinkedList(object):
             node.next = curr.next
             curr.next = node
 
-    # removes node from list after given position
+    # removes node from list after given position, O(1)
     def remove_after(self, curr):
         if self.head is None:
             return
@@ -81,7 +81,7 @@ class SinglyLinkedList(object):
             if succ is None: # checks if removed tail item
                 self.tail = curr
 
-    # searches for a given data value in list and returns first node if found
+    # searches for a given data value in list and returns first node if found, O(n)
     def search(self, key):
         curr = self.head
         while curr is not None:
