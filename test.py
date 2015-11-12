@@ -16,7 +16,29 @@ from hash_table import HashTableChaining, HashTableLinearProbing
 
 from binary_search_tree import BinarySearchTree
 
-# test methods for BST implementation using linear probing
+from heap import MaxHeap, MinHeap
+
+# test methods for max-heap
+class TestMaxHeap(unittest.TestCase):
+
+    def setUp(self):
+        self.heap = MaxHeap()
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.heap), '[]')
+
+
+# test methods for max-heap
+class TestMinHeap(unittest.TestCase):
+
+    def setUp(self):
+        self.heap = MinHeap()
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.heap), '[]')
+
+
+# test methods for BST implementation
 class TestBinarySearchTree(unittest.TestCase):
 
     def setUp(self):
