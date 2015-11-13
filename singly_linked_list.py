@@ -89,3 +89,15 @@ class SinglyLinkedList(object):
                 return curr
             curr = curr.next
         return None
+
+    # reverses linked list in place, O(n)
+    def reverse(self):
+        self.tail = self.head
+        prev = None
+        curr = self.head
+        while curr is not None:
+            succ = curr.next
+            curr.next = prev
+            prev = curr
+            curr = succ
+        self.head = prev

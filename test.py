@@ -705,6 +705,15 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.my_list.append(-17)
         self.assertEqual(self.my_list.array(), [4, 3, 7, -17])
 
+    def test_reverse(self):
+        self.my_list.append(4)
+        self.my_list.append(3)
+        self.my_list.append(7)
+        self.my_list.append(-17)
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+        self.my_list.reverse()
+        self.assertEqual(repr(self.my_list), '[-17, 7, 3, 4]')
+
     def test_search(self):
         self.my_list.append(4)
         self.my_list.append(3)
