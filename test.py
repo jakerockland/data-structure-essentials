@@ -27,7 +27,98 @@ class TestGraph(unittest.TestCase):
         self.graph = Graph()
         self.directed_graph = Graph(directed = True)
 
-    # FIXME: Implement me!
+    def test_basic_initialization_and_get(self):
+        self.assertEqual(self.graph, {})
+
+    def test_add_vertex(self):
+        self.graph.add_vertex('A')
+        self.assertEqual(self.graph, {'A': set()})
+        self.graph.add_vertex('B')
+        self.assertEqual(self.graph, {'A': set(), 'B': set()})
+        self.graph.add_vertex('C')
+        self.assertEqual(self.graph, {'A': set(), 'B': set(), 'C': set()})
+
+    def test_add_connection(self):
+        self.graph.add_connection('A', 'B')
+        self.assertEqual(self.graph, {'A': {'B'}, 'B': {'A'}})
+        self.graph.add_connection('C', 'B')
+        self.assertEqual(self.graph, {'A': {'B'}, 'B': {'A', 'C'}, 'C': {'B'}})
+        self.graph.add_connection('A', 'C')
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C'}, 'C': {'B', 'A'}})
+        self.graph.add_connection('A', 'C')
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C'}, 'C': {'B', 'A'}})
+        self.graph.add_connection('B', 'D')
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+
+        self.directed_graph.add_connection('A', 'B')
+        self.assertEqual(self.directed_graph, {'A': {'B'}})
+        self.directed_graph.add_connection('C', 'B')
+        self.assertEqual(self.directed_graph, {'A': {'B'}, 'C': {'B'}})
+        self.directed_graph.add_connection('A', 'C')
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'C': {'B'}})
+        self.directed_graph.add_connection('C', 'A')
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'C': {'B', 'A'}})
+        self.directed_graph.add_connection('B', 'D')
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B', 'A'}})
+
+    def test_add_connections(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B'}})
+
+    def test_remove_vertex(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+        self.graph.remove_vertex('A')
+        self.assertEqual(self.graph, {'B': {'C', 'D'}, 'C': {'B'}, 'D': {'B'}})
+        self.graph.remove_vertex('A')
+        self.assertEqual(self.graph, {'B': {'C', 'D'}, 'C': {'B'}, 'D': {'B'}})
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B'}})
+        self.directed_graph.remove_vertex('B')
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'C': set()})
+        self.directed_graph.remove_vertex('B')
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'C': set()})
+
+    def test_remove_connection(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+        self.graph.remove_connection('D', 'B')
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C'}, 'C': {'B', 'A'}, 'D': set()})
+        self.graph.remove_connection('A', 'B')
+        self.assertEqual(self.graph, {'A': {'C'}, 'B': {'C'}, 'C': {'B', 'A'}, 'D': set()})
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B'}})
+        self.directed_graph.remove_connection('A', 'B')
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'B': {'D'}, 'C': {'B'}})
+        self.directed_graph.remove_connection('B', 'D')
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'B': set(), 'C': {'B'}})
+
+    def test_remove_connections(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+        self.graph.remove_connections([('A', 'B'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'C'}, 'B': {'C'}, 'C': {'B', 'A'}, 'D': set()})
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B'}})
+        self.directed_graph.remove_connections([('A', 'B'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'B': set(), 'C': {'B'}})
+
+    def test_is_connected(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertTrue(self.graph.is_connected('B', 'A'))
+        self.assertTrue(self.graph.is_connected('A', 'B'))
+        self.assertFalse(self.graph.is_connected('D', 'A'))
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertTrue(self.directed_graph.is_connected('A', 'B'))
+        self.assertFalse(self.directed_graph.is_connected('B', 'A'))
+        self.assertFalse(self.directed_graph.is_connected('D', 'A'))
 
 
 # test method for heap sort in accending order

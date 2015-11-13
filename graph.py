@@ -13,6 +13,14 @@ class Graph(object):
         if connections is not None:
             self.add_connections(connections)
 
+    # true if other object equal to graph
+    def __eq__(self, other):
+        return self.graph == other
+
+    # true if other object not equal to graph
+    def __ne__(self, other):
+        return self.graph != other
+
     # add vertex to graph
     def add_vertex(self, vertex):
         self.graph[vertex] = set()
@@ -50,7 +58,7 @@ class Graph(object):
             self.remove_connection(vertex, adjacent)
 
     # returns boolean value signifying whether or not two nodes are connected
-    def connected(self, vertex, adjacent):
+    def is_connected(self, vertex, adjacent):
         if vertex in self.graph and adjacent in self.graph[vertex]:
             return True
         elif not self.directed:
