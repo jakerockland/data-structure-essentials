@@ -57,3 +57,15 @@ class Graph(object):
             if adjacent in self.graph and vertex in self.graph[adjacent]:
                 return True
         return False
+
+    # breadth first search implementation
+    def bfs(self, start):
+        discovered = set()
+        queue = [start]
+        while queue:
+            current = queue.pop(0)
+            for adjacent in self.graph[current]:
+                if adjacent not in discovered:
+                    discovered.add(adjacent)
+                    queue.append(adjacent)
+        return discovered
