@@ -81,3 +81,18 @@ class Graph(object):
                 for adjacent in self.graph[current]:
                     stack.append(adjacent)
         return discovered
+
+    # finds the shortest path between start and end indices
+    def shortest_path(self, start, end):
+        path = []
+        queue = [start]
+        while queue:
+            current = queue.pop(0)
+            path.append(current)
+            if current == end:
+                return path
+            for adjacent in self.graph[current]:
+                if adjacent not in discovered:
+                    discovered.add(adjacent)
+                    queue.append(adjacent)
+        return None
