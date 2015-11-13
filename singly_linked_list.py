@@ -101,3 +101,14 @@ class SinglyLinkedList(object):
             prev = curr
             curr = succ
         self.head = prev
+
+    # remove duplicates from linked list
+    def remove_duplicates(self):
+        if self.head is None:
+            return
+        curr = self.head
+        while curr.next is not None:
+            if curr.data == curr.next.data:
+                curr.next = curr.next.next
+            else:
+                curr = curr.next

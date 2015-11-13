@@ -107,3 +107,16 @@ class DoublyLinkedList(object):
                 return curr
             curr = curr.next
         return None
+
+    # remove duplicates from linked list
+    def remove_duplicates(self):
+        if self.head is None:
+            return
+        curr = self.head
+        while curr.next is not None:
+            if curr.data == curr.next.data:
+                curr.next = curr.next.next
+                if curr.next is not None:
+                    curr.next.prev = curr
+            else:
+                curr = curr.next
