@@ -18,6 +18,17 @@ from binary_search_tree import BinarySearchTree
 
 from heap import MinHeap, MaxHeap, heap_sort_accending, heap_sort_decending
 
+from graph import Graph
+
+# test graph data structure implementation
+class TestGraph(unittest.TestCase):
+
+    def setUp(self):
+        self.graph = Graph()
+
+    # FIXME: Implement me!
+
+
 # test method for heap sort in accending order
 class TestHeapSortAccending(unittest.TestCase):
 
