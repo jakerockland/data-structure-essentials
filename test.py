@@ -25,6 +25,7 @@ class TestGraph(unittest.TestCase):
 
     def setUp(self):
         self.graph = Graph()
+        self.directed_graph = Graph(directed = True)
 
     # FIXME: Implement me!
 

@@ -58,7 +58,7 @@ class Graph(object):
                 return True
         return False
 
-    # breadth first search implementation
+    # breadth first search implementation, returns all discovered vertices
     def bfs(self, start):
         discovered = set()
         queue = [start]
@@ -68,4 +68,16 @@ class Graph(object):
                 if adjacent not in discovered:
                     discovered.add(adjacent)
                     queue.append(adjacent)
+        return discovered
+
+    # depth first search implementation, returns all discovered vertices
+    def dfs(self, start):
+        discovered = set()
+        stack = [start]
+        while stack:
+            current = stack.pop()
+            if current not in discovered:
+                discovered.add(current)
+                for adjacent in self.graph[current]:
+                    stack.append(adjacent)
         return discovered
