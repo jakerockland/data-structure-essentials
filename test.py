@@ -669,6 +669,17 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.assertEqual(self.my_list.search(-17).data, -17)
         self.assertEqual(self.my_list.search(17), None)
 
+    def test_reverse(self):
+        self.my_list.append(4)
+        self.my_list.append(3)
+        self.my_list.append(7)
+        self.my_list.append(-17)
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+        self.my_list.reverse()
+        self.assertEqual(repr(self.my_list), '[-17, 7, 3, 4]')
+        self.my_list.reverse()
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+
     def test_remove_duplicates(self):
         self.my_list.append(4)
         self.my_list.append(3)
@@ -729,6 +740,7 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.my_list.insert_sorted(6)
         self.my_list.insert_sorted(5)
         self.assertEqual(repr(self.my_list), '[5, 6, 7, 8]')
+        self.my_list.reverse()
         self.assertEqual(repr(self.my_list), '[8, 7, 6, 5]')
 
     def test_remove_after(self):
@@ -773,6 +785,8 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
         self.my_list.reverse()
         self.assertEqual(repr(self.my_list), '[-17, 7, 3, 4]')
+        self.my_list.reverse()
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
 
     def test_remove_duplicates(self):
         self.my_list.append(4)

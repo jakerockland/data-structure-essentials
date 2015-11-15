@@ -134,6 +134,18 @@ class DoublyLinkedList(object):
             curr = curr.next
         return None
 
+    # reverses linked list in place, O(n)
+    def reverse(self):
+        self.tail = self.head
+        curr = self.head
+        while curr is not None:
+            temp = curr.next
+            curr.next = curr.prev
+            curr.prev = temp
+            if temp is None:
+                self.head = curr
+            curr = temp
+
     # remove duplicates from linked list
     def remove_duplicates(self):
         if self.head is None:
