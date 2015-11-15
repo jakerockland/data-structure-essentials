@@ -66,6 +66,28 @@ class SinglyLinkedList(object):
             node.next = curr.next
             curr.next = node
 
+    # inserts node into list in sorted position, O(n)
+    def insert_sorted(self, item):
+        node = Node(item)
+        if self.head is None:
+            self.head = node
+            self.tail = node
+        else:
+            last = None
+            curr = self.head
+            while curr is not None and item > curr.data:
+                last = curr
+                curr = curr.next
+            if curr is None:
+                self.tail.next = node
+                self.tail = node
+            elif last is None:
+                node.next = self.head
+                self.head = node
+            else:
+                last.next = node
+                node.next = curr
+
     # removes node from list after given position, O(1)
     def remove_after(self, curr):
         if self.head is None:
