@@ -610,6 +610,25 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.my_list.insert_after(self.my_list.head, -17)
         self.assertEqual(repr(self.my_list), '[3, -17, 4, 7]')
 
+    def test_insert_sorted(self):
+        self.my_list.insert_after(None, 4)
+        self.my_list.insert_after(None, 3)
+        self.my_list.insert_after(None, 7)
+        self.assertEqual(repr(self.my_list), '[7, 3, 4]')
+        self.my_list.insert_sorted(2)
+        self.my_list.insert_sorted(8)
+        self.assertEqual(repr(self.my_list), '[2, 7, 3, 4, 8]')
+        self.my_list.remove(self.my_list.head)
+        self.my_list.remove(self.my_list.head)
+        self.my_list.remove(self.my_list.head)
+        self.my_list.remove(self.my_list.head)
+        self.my_list.remove(self.my_list.head)
+        self.my_list.insert_sorted(8)
+        self.my_list.insert_sorted(7)
+        self.my_list.insert_sorted(6)
+        self.my_list.insert_sorted(5)
+        self.assertEqual(repr(self.my_list), '[5, 6, 7, 8]')
+
     def test_remove(self):
         self.my_list.append(4)
         self.my_list.append(3)
