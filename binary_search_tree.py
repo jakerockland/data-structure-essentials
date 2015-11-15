@@ -21,6 +21,14 @@ class BinarySearchTree(object):
     def __repr__(self):
         return self.in_order(self.root)
 
+    # returns height of tree
+    def height(self, node):
+        if node is None:
+            return -1
+        height_left = self.height(node.left_child)
+        height_right = self.height(node.right_child)
+        return 1 + max(height_left, height_right)
+
     # returns an in-order string representation of the tree
     def in_order(self, node):
         if node is None:

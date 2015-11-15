@@ -83,6 +83,32 @@ class DoublyLinkedList(object):
             curr.next = node
             succ.prev = node
 
+    # inserts node into list in sorted position, O(n)
+    def insert_sorted(self, item):
+        node = Node(item)
+        if self.head is None:
+            self.head = node
+            self.tail = node
+        else:
+            last = None
+            curr = self.head
+            while curr is not None and item > curr.data:
+                last = curr
+                curr = curr.next
+            if curr is None:
+                self.tail.next = node
+                node.prev = self.tail
+                self.tail = node
+            elif last is None:
+                self.head.prev = node
+                node.next = self.head
+                self.head = node
+            else:
+                last.next = node
+                node.prev = last
+                curr.prev = node
+                node.next = curr
+
     # removes node from list after given position, O(1)
     def remove(self, curr):
         if self.head is None or curr is None:
@@ -107,3 +133,28 @@ class DoublyLinkedList(object):
                 return curr
             curr = curr.next
         return None
+
+    # reverses linked list in place, O(n)
+    def reverse(self):
+        self.tail = self.head
+        curr = self.head
+        while curr is not None:
+            temp = curr.next
+            curr.next = curr.prev
+            curr.prev = temp
+            if temp is None:
+                self.head = curr
+            curr = temp
+
+    # remove duplicates from linked list
+    def remove_duplicates(self):
+        if self.head is None:
+            return
+        curr = self.head
+        while curr.next is not None:
+            if curr.data == curr.next.data:
+                curr.next = curr.next.next
+                if curr.next is not None:
+                    curr.next.prev = curr
+            else:
+                curr = curr.next

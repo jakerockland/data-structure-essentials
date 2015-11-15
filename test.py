@@ -16,7 +16,244 @@ from hash_table import HashTableChaining, HashTableLinearProbing
 
 from binary_search_tree import BinarySearchTree
 
-# test methods for BST implementation using linear probing
+from heap import MinHeap, MaxHeap, heap_sort_accending, heap_sort_decending
+
+from graph import Graph
+
+# test graph data structure implementation
+class TestGraph(unittest.TestCase):
+
+    def setUp(self):
+        self.graph = Graph()
+        self.directed_graph = Graph(directed = True)
+
+    def test_basic_initialization_and_get(self):
+        self.assertEqual(self.graph, {})
+
+    def test_add_vertex(self):
+        self.graph.add_vertex('A')
+        self.assertEqual(self.graph, {'A': set()})
+        self.graph.add_vertex('B')
+        self.assertEqual(self.graph, {'A': set(), 'B': set()})
+        self.graph.add_vertex('C')
+        self.assertEqual(self.graph, {'A': set(), 'B': set(), 'C': set()})
+
+    def test_add_connection(self):
+        self.graph.add_connection('A', 'B')
+        self.assertEqual(self.graph, {'A': {'B'}, 'B': {'A'}})
+        self.graph.add_connection('C', 'B')
+        self.assertEqual(self.graph, {'A': {'B'}, 'B': {'A', 'C'}, 'C': {'B'}})
+        self.graph.add_connection('A', 'C')
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C'}, 'C': {'B', 'A'}})
+        self.graph.add_connection('A', 'C')
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C'}, 'C': {'B', 'A'}})
+        self.graph.add_connection('B', 'D')
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+
+        self.directed_graph.add_connection('A', 'B')
+        self.assertEqual(self.directed_graph, {'A': {'B'}})
+        self.directed_graph.add_connection('C', 'B')
+        self.assertEqual(self.directed_graph, {'A': {'B'}, 'C': {'B'}})
+        self.directed_graph.add_connection('A', 'C')
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'C': {'B'}})
+        self.directed_graph.add_connection('C', 'A')
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'C': {'B', 'A'}})
+        self.directed_graph.add_connection('B', 'D')
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B', 'A'}})
+
+    def test_add_connections(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B'}})
+
+    def test_remove_vertex(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+        self.graph.remove_vertex('A')
+        self.assertEqual(self.graph, {'B': {'C', 'D'}, 'C': {'B'}, 'D': {'B'}})
+        self.graph.remove_vertex('A')
+        self.assertEqual(self.graph, {'B': {'C', 'D'}, 'C': {'B'}, 'D': {'B'}})
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B'}})
+        self.directed_graph.remove_vertex('B')
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'C': set()})
+        self.directed_graph.remove_vertex('B')
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'C': set()})
+
+    def test_remove_connection(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+        self.graph.remove_connection('D', 'B')
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C'}, 'C': {'B', 'A'}, 'D': set()})
+        self.graph.remove_connection('A', 'B')
+        self.assertEqual(self.graph, {'A': {'C'}, 'B': {'C'}, 'C': {'B', 'A'}, 'D': set()})
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B'}})
+        self.directed_graph.remove_connection('A', 'B')
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'B': {'D'}, 'C': {'B'}})
+        self.directed_graph.remove_connection('B', 'D')
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'B': set(), 'C': {'B'}})
+
+    def test_remove_connections(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'B', 'C'}, 'B': {'A', 'C', 'D'}, 'C': {'B', 'A'}, 'D': {'B'}})
+        self.graph.remove_connections([('A', 'B'), ('B', 'D')])
+        self.assertEqual(self.graph, {'A': {'C'}, 'B': {'C'}, 'C': {'B', 'A'}, 'D': set()})
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'B', 'C'}, 'B': {'D'}, 'C': {'B'}})
+        self.directed_graph.remove_connections([('A', 'B'), ('B', 'D')])
+        self.assertEqual(self.directed_graph, {'A': {'C'}, 'B': set(), 'C': {'B'}})
+
+    def test_is_connected(self):
+        self.graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertTrue(self.graph.is_connected('B', 'A'))
+        self.assertTrue(self.graph.is_connected('A', 'B'))
+        self.assertFalse(self.graph.is_connected('D', 'A'))
+
+        self.directed_graph.add_connections([('A', 'B'), ('C', 'B'), ('A', 'C'), ('B', 'D')])
+        self.assertTrue(self.directed_graph.is_connected('A', 'B'))
+        self.assertFalse(self.directed_graph.is_connected('B', 'A'))
+        self.assertFalse(self.directed_graph.is_connected('D', 'A'))
+
+
+# test method for heap sort in accending order
+class TestHeapSortAccending(unittest.TestCase):
+
+    def test_heap_sort_accending(self):
+        self.assertEqual([], heap_sort_accending([]))
+        self.assertEqual([-2, -1, 3, 4, 5], heap_sort_accending([3, -2, 4, -1, 5]))
+        self.assertEqual([-2, -1, 3, 4, 5], heap_sort_accending([-2, -1, 5, 3, 4]))
+        self.assertEqual([-2, -1, 3, 4, 5], heap_sort_accending([-1, -2, 3, 4, 5]))
+        self.assertEqual([-2, -1, 3, 4, 5], heap_sort_accending([5, 4, 3, -2, -1]))
+
+
+# test method for heap sort in decending order
+class TestHeapSortDecending(unittest.TestCase):
+
+    def test_heap_sort_decending(self):
+        self.assertEqual([], heap_sort_decending([]))
+        self.assertEqual([5, 4, 3, -1, -2], heap_sort_decending([3, -2, 4, -1, 5]))
+        self.assertEqual([5, 4, 3, -1, -2], heap_sort_decending([-2, -1, 5, 3, 4]))
+        self.assertEqual([5, 4, 3, -1, -2], heap_sort_decending([-1, -2, 3, 4, 5]))
+        self.assertEqual([5, 4, 3, -1, -2], heap_sort_decending([5, 4, 3, -2, -1]))
+
+
+# test methods for max-heap
+class TestMaxHeap(unittest.TestCase):
+
+    def setUp(self):
+        self.heap = MaxHeap()
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.heap), '[]')
+
+    def test_insert(self):
+        self.heap.insert(4)
+        self.assertEqual(repr(self.heap), '[4]')
+        self.assertEqual(self.heap.size, 1)
+        self.heap.insert(4)
+        self.assertEqual(repr(self.heap), '[4, 4]')
+        self.assertEqual(self.heap.size, 2)
+        self.heap.insert(6)
+        self.assertEqual(repr(self.heap), '[6, 4, 4]')
+        self.assertEqual(self.heap.size, 3)
+        self.heap.insert(1)
+        self.assertEqual(repr(self.heap), '[6, 4, 4, 1]')
+        self.assertEqual(self.heap.size, 4)
+        self.heap.insert(7)
+        self.assertEqual(repr(self.heap), '[7, 6, 4, 1, 4]')
+        self.assertEqual(self.heap.size, 5)
+
+    def test_get_max(self):
+        self.assertEqual(self.heap.get_max(), None)
+        self.heap.insert(-7)
+        self.assertEqual(self.heap.get_max(), -7)
+        self.heap.insert(7)
+        self.assertEqual(self.heap.get_max(), 7)
+        self.heap.insert(5)
+        self.assertEqual(self.heap.get_max(), 7)
+        self.heap.insert(12)
+        self.assertEqual(self.heap.get_max(), 12)
+
+    def test_extract_min(self):
+        self.heap.insert(4)
+        self.heap.insert(5)
+        self.heap.insert(7)
+        self.heap.insert(2)
+        self.heap.insert(-1)
+        self.assertEqual(self.heap.extract_max(), 7)
+        self.assertEqual(self.heap.extract_max(), 5)
+        self.assertEqual(self.heap.extract_max(), 4)
+        self.assertEqual(self.heap.extract_max(), 2)
+        self.assertEqual(self.heap.extract_max(), -1)
+        self.assertEqual(self.heap.extract_max(), None)
+
+    def test_build_heap(self):
+        self.heap.build_heap([4, 4, 6, 1, 7])
+        self.assertEqual(repr(self.heap), '[7, 4, 6, 1, 4]')
+
+
+# test methods for min-heap
+class TestMinHeap(unittest.TestCase):
+
+    def setUp(self):
+        self.heap = MinHeap()
+
+    def test_basic_initialization_and_repr(self):
+        self.assertEqual(repr(self.heap), '[]')
+
+    def test_insert(self):
+        self.heap.insert(4)
+        self.assertEqual(repr(self.heap), '[4]')
+        self.assertEqual(self.heap.size, 1)
+        self.heap.insert(4)
+        self.assertEqual(repr(self.heap), '[4, 4]')
+        self.assertEqual(self.heap.size, 2)
+        self.heap.insert(6)
+        self.assertEqual(repr(self.heap), '[4, 4, 6]')
+        self.assertEqual(self.heap.size, 3)
+        self.heap.insert(1)
+        self.assertEqual(repr(self.heap), '[1, 4, 6, 4]')
+        self.assertEqual(self.heap.size, 4)
+        self.heap.insert(3)
+        self.assertEqual(repr(self.heap), '[1, 3, 6, 4, 4]')
+        self.assertEqual(self.heap.size, 5)
+
+    def test_get_min(self):
+        self.assertEqual(self.heap.get_min(), None)
+        self.heap.insert(4)
+        self.assertEqual(self.heap.get_min(), 4)
+        self.heap.insert(7)
+        self.assertEqual(self.heap.get_min(), 4)
+        self.heap.insert(2)
+        self.assertEqual(self.heap.get_min(), 2)
+        self.heap.insert(-1)
+        self.assertEqual(self.heap.get_min(), -1)
+
+    def test_extract_min(self):
+        self.heap.insert(4)
+        self.heap.insert(5)
+        self.heap.insert(7)
+        self.heap.insert(2)
+        self.heap.insert(-1)
+        self.assertEqual(self.heap.extract_min(), -1)
+        self.assertEqual(self.heap.extract_min(), 2)
+        self.assertEqual(self.heap.extract_min(), 4)
+        self.assertEqual(self.heap.extract_min(), 5)
+        self.assertEqual(self.heap.extract_min(), 7)
+        self.assertEqual(self.heap.extract_min(), None)
+
+    def test_build_heap(self):
+        self.heap.build_heap([4, 4, 6, 1, 3])
+        self.assertEqual(repr(self.heap), '[1, 3, 6, 4, 4]')
+
+
+# test methods for BST implementation
 class TestBinarySearchTree(unittest.TestCase):
 
     def setUp(self):
@@ -38,6 +275,21 @@ class TestBinarySearchTree(unittest.TestCase):
         self.assertEqual(repr(self.tree), 'A B C D F ')
         self.tree.insert('E')
         self.assertEqual(repr(self.tree), 'A B C D E F ')
+
+    def test_height(self):
+        self.assertEqual(self.tree.height(self.tree.root), -1)
+        self.tree.insert('C')
+        self.assertEqual(self.tree.height(self.tree.root), 0)
+        self.tree.insert('D')
+        self.assertEqual(self.tree.height(self.tree.root), 1)
+        self.tree.insert('A')
+        self.assertEqual(self.tree.height(self.tree.root), 1)
+        self.tree.insert('L')
+        self.assertEqual(self.tree.height(self.tree.root), 2)
+        self.tree.insert('X')
+        self.assertEqual(self.tree.height(self.tree.root), 3)
+        self.tree.insert('B')
+        self.assertEqual(self.tree.height(self.tree.root), 3)
 
     def test_search(self):
         self.tree.insert('C')
@@ -373,6 +625,25 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.my_list.insert_after(self.my_list.head, -17)
         self.assertEqual(repr(self.my_list), '[3, -17, 4, 7]')
 
+    def test_insert_sorted(self):
+        self.my_list.insert_after(None, 4)
+        self.my_list.insert_after(None, 3)
+        self.my_list.insert_after(None, 7)
+        self.assertEqual(repr(self.my_list), '[7, 3, 4]')
+        self.my_list.insert_sorted(2)
+        self.my_list.insert_sorted(8)
+        self.assertEqual(repr(self.my_list), '[2, 7, 3, 4, 8]')
+        self.my_list.remove(self.my_list.head)
+        self.my_list.remove(self.my_list.head)
+        self.my_list.remove(self.my_list.head)
+        self.my_list.remove(self.my_list.head)
+        self.my_list.remove(self.my_list.head)
+        self.my_list.insert_sorted(8)
+        self.my_list.insert_sorted(7)
+        self.my_list.insert_sorted(6)
+        self.my_list.insert_sorted(5)
+        self.assertEqual(repr(self.my_list), '[5, 6, 7, 8]')
+
     def test_remove(self):
         self.my_list.append(4)
         self.my_list.append(3)
@@ -413,6 +684,28 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.assertEqual(self.my_list.search(-17).data, -17)
         self.assertEqual(self.my_list.search(17), None)
 
+    def test_reverse(self):
+        self.my_list.append(4)
+        self.my_list.append(3)
+        self.my_list.append(7)
+        self.my_list.append(-17)
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+        self.my_list.reverse()
+        self.assertEqual(repr(self.my_list), '[-17, 7, 3, 4]')
+        self.my_list.reverse()
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+
+    def test_remove_duplicates(self):
+        self.my_list.append(4)
+        self.my_list.append(3)
+        self.my_list.append(3)
+        self.my_list.append(3)
+        self.my_list.append(7)
+        self.my_list.append(-17)
+        self.assertEqual(repr(self.my_list), '[4, 3, 3, 3, 7, -17]')
+        self.my_list.remove_duplicates()
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+
 
 # test methods for singly linked list
 class TestSinglyLinkedList(unittest.TestCase):
@@ -443,6 +736,27 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.my_list.insert_after(self.my_list.tail, 7)
         self.my_list.insert_after(self.my_list.head, -17)
         self.assertEqual(repr(self.my_list), '[3, -17, 4, 7]')
+
+    def test_insert_sorted(self):
+        self.my_list.insert_after(None, 4)
+        self.my_list.insert_after(None, 3)
+        self.my_list.insert_after(None, 7)
+        self.assertEqual(repr(self.my_list), '[7, 3, 4]')
+        self.my_list.insert_sorted(2)
+        self.my_list.insert_sorted(8)
+        self.assertEqual(repr(self.my_list), '[2, 7, 3, 4, 8]')
+        self.my_list.remove_after(None)
+        self.my_list.remove_after(None)
+        self.my_list.remove_after(None)
+        self.my_list.remove_after(None)
+        self.my_list.remove_after(None)
+        self.my_list.insert_sorted(8)
+        self.my_list.insert_sorted(7)
+        self.my_list.insert_sorted(6)
+        self.my_list.insert_sorted(5)
+        self.assertEqual(repr(self.my_list), '[5, 6, 7, 8]')
+        self.my_list.reverse()
+        self.assertEqual(repr(self.my_list), '[8, 7, 6, 5]')
 
     def test_remove_after(self):
         self.my_list.append(4)
@@ -477,6 +791,28 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.assertEqual(self.my_list.search(3).data, 3)
         self.assertEqual(self.my_list.search(-17).data, -17)
         self.assertEqual(self.my_list.search(17), None)
+
+    def test_reverse(self):
+        self.my_list.append(4)
+        self.my_list.append(3)
+        self.my_list.append(7)
+        self.my_list.append(-17)
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+        self.my_list.reverse()
+        self.assertEqual(repr(self.my_list), '[-17, 7, 3, 4]')
+        self.my_list.reverse()
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
+
+    def test_remove_duplicates(self):
+        self.my_list.append(4)
+        self.my_list.append(3)
+        self.my_list.append(3)
+        self.my_list.append(3)
+        self.my_list.append(7)
+        self.my_list.append(-17)
+        self.assertEqual(repr(self.my_list), '[4, 3, 3, 3, 7, -17]')
+        self.my_list.remove_duplicates()
+        self.assertEqual(repr(self.my_list), '[4, 3, 7, -17]')
 
 
 # test methods from sorting module
