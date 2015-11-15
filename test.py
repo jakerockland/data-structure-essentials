@@ -276,6 +276,21 @@ class TestBinarySearchTree(unittest.TestCase):
         self.tree.insert('E')
         self.assertEqual(repr(self.tree), 'A B C D E F ')
 
+    def test_height(self):
+        self.assertEqual(self.tree.height(self.tree.root), -1)
+        self.tree.insert('C')
+        self.assertEqual(self.tree.height(self.tree.root), 0)
+        self.tree.insert('D')
+        self.assertEqual(self.tree.height(self.tree.root), 1)
+        self.tree.insert('A')
+        self.assertEqual(self.tree.height(self.tree.root), 1)
+        self.tree.insert('L')
+        self.assertEqual(self.tree.height(self.tree.root), 2)
+        self.tree.insert('X')
+        self.assertEqual(self.tree.height(self.tree.root), 3)
+        self.tree.insert('B')
+        self.assertEqual(self.tree.height(self.tree.root), 3)
+
     def test_search(self):
         self.tree.insert('C')
         self.tree.insert('D')
