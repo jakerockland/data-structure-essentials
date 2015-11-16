@@ -7,9 +7,14 @@ from binary_search_tree import BinarySearchTree, Node
 class AVLNode(Node):
 
     def __init__(self, data):
-        self.data = data
+        self.key = key
+        if data is None:
+            self.data = key
+        else:
+            self.data = data
         self.left_child = None
         self.right_child = None
+        self.parent = None
         self.balance_factor = 0
 
 

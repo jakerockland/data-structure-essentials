@@ -11,7 +11,6 @@ class Node(object):
             self.data = key
         else:
             self.data = data
-        self.parent = None
         self.left_child = None
         self.right_child = None
 
