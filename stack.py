@@ -17,7 +17,7 @@ class Stack(object):
 
     # returns boolean value of whether or not stack is empty
     def is_empty(self):
-        return True if self.length == 0 else False
+        return self.length == 0
 
     # returns length of stack
     def get_length(self):
