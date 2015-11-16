@@ -276,6 +276,21 @@ class TestBinarySearchTree(unittest.TestCase):
         self.tree.insert('E')
         self.assertEqual(repr(self.tree), 'A B C D E F ')
 
+    def test_iterator(self):
+        letters = []
+        for node in self.tree:
+            letters.append(node)
+        self.assertEqual(letters, [])
+        self.tree.insert('C')
+        self.tree.insert('D')
+        self.tree.insert('A')
+        self.tree.insert('B')
+        self.tree.insert('F')
+        self.tree.insert('E')
+        for node in self.tree:
+            letters.append(node)
+        self.assertEqual(letters, ['A', 'B', 'C', 'D', 'E', 'F'])
+
     def test_height(self):
         self.assertEqual(self.tree.height(self.tree.root), -1)
         self.tree.insert('C')
@@ -290,6 +305,44 @@ class TestBinarySearchTree(unittest.TestCase):
         self.assertEqual(self.tree.height(self.tree.root), 3)
         self.tree.insert('B')
         self.assertEqual(self.tree.height(self.tree.root), 3)
+
+    def test_length(self):
+        self.assertEqual(self.tree.length(), 0)
+        self.assertEqual(len(self.tree), 0)
+        self.tree.insert('C')
+        self.assertEqual(self.tree.length(), 1)
+        self.assertEqual(len(self.tree), 1)
+        self.tree.insert('D')
+        self.assertEqual(self.tree.length(), 2)
+        self.assertEqual(len(self.tree), 2)
+        self.tree.insert('A')
+        self.assertEqual(self.tree.length(), 3)
+        self.assertEqual(len(self.tree), 3)
+        self.tree.insert('B')
+        self.assertEqual(self.tree.length(), 4)
+        self.assertEqual(len(self.tree), 4)
+        self.tree.remove('D')
+        self.assertEqual(self.tree.length(), 3)
+        self.assertEqual(len(self.tree), 3)
+        self.tree.remove('B')
+        self.assertEqual(self.tree.length(), 2)
+        self.assertEqual(len(self.tree), 2)
+        self.tree.remove('A')
+        self.assertEqual(self.tree.length(), 1)
+        self.assertEqual(len(self.tree), 1)
+        self.tree.remove('C')
+        self.assertEqual(self.tree.length(), 0)
+        self.assertEqual(len(self.tree), 0)
+
+    def test_contains(self):
+        self.tree.insert('C')
+        self.tree.insert('D')
+        self.tree.insert('A')
+        self.assertTrue('A' in self.tree)
+        self.assertTrue('C' in self.tree)
+        self.assertTrue('D' in self.tree)
+        self.assertFalse('B' in self.tree)
+        self.assertFalse(None in self.tree)
 
     def test_search(self):
         self.tree.insert('C')

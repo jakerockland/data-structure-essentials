@@ -4,10 +4,27 @@
 # node class for BST
 class Node(object):
 
-    def __init__(self, data):
-        self.data = data
+    # initializes node
+    def __init__(self, key, data = None):
+        self.key = key
+        if data is None:
+            self.data = key
+        else:
+            self.data = data
+        self.parent = None
         self.left_child = None
         self.right_child = None
+
+    # iterator generator for binary search tree nodes
+    def __iter__(self):
+       if self:
+          if self.left_child is not None:
+                 for node in self.left_child:
+                    yield node
+          yield self.data
+          if self.right_child is not None:
+                 for node in self.right_child:
+                    yield node
 
 
 # implementation of BST
@@ -16,6 +33,19 @@ class BinarySearchTree(object):
     # initializes tree
     def __init__(self, root = None):
         self.root = root
+        self.size = 0
+
+    # iterator for tree
+    def __iter__(self):
+        return self.root.__iter__() if self.root is not None else iter(())
+
+    # returns length of binary tree
+    def length(self):
+        return self.size
+
+    # returns length of binary tree
+    def __len__(self):
+        return self.size
 
     # returns a string representation of tree
     def __repr__(self):
@@ -47,47 +77,57 @@ class BinarySearchTree(object):
             return ''
         return self.post_order(node.left_child) + self.post_order(node.right_child) + str(node.data + ' ')
 
-    # searches for a node with the data of given key, O(log(n)) on average
-    def search(self, data):
+    # searches for a node with a given key, O(log(n)) on average
+    def search(self, key):
         curr = self.root
         while curr is not None:
-            if curr.data == data: # node is found
+            if curr.key == key: # node is found
                 return curr
-            elif curr.data < data: # searching down right subtree
+            elif curr.key < key: # searching down right subtree
                 curr = curr.right_child
-            elif curr.data > data: # searching down left subtree
+            elif curr.key > key: # searching down left subtree
                 curr = curr.left_child
         return None # node was not found
 
+    # returns True if list contains node with a given key, False otherwise
+    def __contains__(self, key):
+        return self.search(key) is not None
+
     # inserts a data item into the tree, O(log(n)) on average
-    def insert(self, data):
-        node = Node(data)
+    def insert(self, key, data = None):
+        if data is None:
+            data = key
+        node = Node(key, data)
         curr = self.root
         if curr is None: # tree is empty, inserting data at root
             self.root = node
+            self.size += 1
+            return # node inserted
         else:
             while curr is not None:
-                if curr.data > data: # going down left subtree
+                if curr.key > key: # going down left subtree
                     if curr.left_child is None:
                         curr.left_child = node
+                        self.size += 1
                         return # node inserted
                     else:
                         curr = curr.left_child
                 else: # going down right subtree
                     if curr.right_child is None:
                         curr.right_child = node
+                        self.size += 1
                         return # node inserted
                     else:
                         curr = curr.right_child
 
-    # removes the first found item in the tree with matching data, O(log(n)) on average
-    def remove(self, data, start = None):
+    # removes the first found item in the tree with matching key, O(log(n)) on average
+    def remove(self, key, start = None):
         if start is None:
             start = self.root
         curr = start
         prev = None
         while curr is not None:
-            if curr.data == data: # node to be removed is found
+            if curr.key == key: # node to be removed is found
                 if curr.left_child is None and curr.right_child is None: # removing leaf node
                     if prev is None: # removing root
                         self.root = None
@@ -113,13 +153,14 @@ class BinarySearchTree(object):
                     succ = curr.right_child
                     while succ.left_child is not None:
                         succ = succ.left_child
-                    curr.data = succ.data
-                    self.remove(succ.data, curr.right_child)
+                    curr.key = succ.key
+                    self.remove(succ.key, curr.right_child)
+                self.size -= 1
                 return # node removed
-            elif curr.data < data: # search right subtree
+            elif curr.key < key: # search right subtree
                 prev = curr
                 curr = curr.right_child
-            elif curr.data > data: # search left subtree
+            elif curr.key > key: # search left subtree
                 prev = curr
                 curr = curr.left_child
         return None # node was not found

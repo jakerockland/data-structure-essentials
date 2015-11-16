@@ -3,8 +3,26 @@
 
 from binary_search_tree import BinarySearchTree, Node
 
+# implementation of AVL node
+class AVLNode(Node):
+
+    def __init__(self, data):
+        self.data = data
+        self.left_child = None
+        self.right_child = None
+        self.balance_factor = 0
+
+
 # implementation of AVL tree
 class AVLTree(BinarySearchTree):
+
+    # update the balance factor for a given node
+    def update_balance_factor(self, node):
+        node.balance_factor = self.height(node.left_child) - self.height(node.right_child)
+
+    # returns True if a given node is balanced, False otherwise
+    def is_balanced(self, node):
+        return -1 <= node.balance_factor <= 1
 
     # performs a right-rotate on the given node, returning new root node
     def right_rotate(self, node):
