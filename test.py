@@ -16,6 +16,8 @@ from hash_table import HashTableChaining, HashTableLinearProbing
 
 from binary_search_tree import BinarySearchTree
 
+from avl_tree import AVLTree
+
 from heap import MinHeap, MaxHeap, heap_sort_accending, heap_sort_decending
 
 from graph import Graph
@@ -251,6 +253,13 @@ class TestMinHeap(unittest.TestCase):
     def test_build_heap(self):
         self.heap.build_heap([4, 4, 6, 1, 3])
         self.assertEqual(repr(self.heap), '[1, 3, 6, 4, 4]')
+
+
+# test methods for AVL tree implementation
+class TestAVLTree(unittest.TestCase):
+
+    def setUp(self):
+        self.tree = AVLTree()
 
 
 # test methods for BST implementation
